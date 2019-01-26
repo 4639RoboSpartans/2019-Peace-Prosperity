@@ -18,7 +18,7 @@ public class OI {
   private static double deadzoneValue = 0.01;
 
   //field oriented toggle
-  public static boolean fieldOriented;
+  public static boolean fieldOriented = false;
 
   public OI() {
     int controllerPort = 0;
