@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.subsystems.DriveTrainSys;
@@ -14,10 +16,12 @@ import frc.robot.subsystems.DriveTrainSys;
 public class DriveCommand extends Command {
   private DriveTrainSys m_drive;
   private OI m_oi;
+  private AHRS navx;
 
-  public DriveCommand(DriveTrainSys m_drive, OI m_oi) {
+  public DriveCommand(DriveTrainSys m_drive, OI m_oi, AHRS navx) {
     this.m_drive = m_drive;
     this.m_oi = m_oi;
+    this.navx = navx;
     requires(m_drive);
   }
 
@@ -29,7 +33,7 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    m_drive.drive(m_oi.getControllerX(), m_oi.getControllerY(), m_oi.getControllerZ());
+    m_drive.drive(m_oi.getControllerX(), m_oi.getControllerY(), m_oi.getControllerZ(), (OI.fieldOriented ? navx.getYaw() : 0.0));
   }
 
   // Make this return true when this Command no longer needs to run execute()
