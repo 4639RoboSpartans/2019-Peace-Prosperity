@@ -21,11 +21,9 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
  * Add your docs here.
  */
 public class ElevatorSys extends InjectedSubsystem {
-  private static int motorLeftPort = 5;
-  private static int motorRightPort = 6;
+  private static int motorPort = 5;
 
-  private static WPI_TalonSRX motorLeft;
-  private static WPI_TalonSRX motorRight;
+  private static WPI_TalonSRX motor;
 
   //placeholder values
   public static int[] heights = {0, 1, 2, //hatch heights
@@ -39,17 +37,12 @@ public class ElevatorSys extends InjectedSubsystem {
   private double P = 0, I = 0, D = 0;
   private PIDController pid;
 
-  private static SpeedControllerGroup elevator; 
-
   public ElevatorSys() {
-    motorLeft = new WPI_TalonSRX(motorLeftPort);
-    motorRight = new WPI_TalonSRX(motorRightPort);
-
-    elevator = new SpeedControllerGroup(motorLeft, motorRight);
+    motor = new WPI_TalonSRX(motorPort);
 
     enc = new Encoder(encChannel0,encChannel1, false, Encoder.EncodingType.k4X);
 
-    pid = new PIDController(P, I, D, enc, elevator);
+    pid = new PIDController(P, I, D, enc, motor);
   }
 
   public void move(int num) {
