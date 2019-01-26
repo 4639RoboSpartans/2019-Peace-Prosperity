@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
@@ -17,7 +18,7 @@ public class DriveTrainSys extends InjectedSubsystem {
     private static WPI_TalonSRX rearRight;
     private static MecanumDrive drive;
 
-    public DriveTrainSys() {
+    public DriveTrainSys(AHRS navx) {
         frontLeft = new WPI_TalonSRX(frontLeftMotor);
         frontRight = new WPI_TalonSRX(frontRightMotor);
         rearLeft = new WPI_TalonSRX(rearLeftMotor);
@@ -29,8 +30,8 @@ public class DriveTrainSys extends InjectedSubsystem {
         drive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
     }
 
-    public void drive(double xSpeed, double ySpeed, double zRotation) {
-        double gyroAngle = 0.0;
+
+    public void drive(double xSpeed, double ySpeed, double zRotation, double gyroAngle) {
         drive.driveCartesian(xSpeed, ySpeed, zRotation, gyroAngle);
     }
 

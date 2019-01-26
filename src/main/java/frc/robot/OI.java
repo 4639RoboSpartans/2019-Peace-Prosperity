@@ -16,6 +16,10 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI {
   private Joystick main;
   private static double deadzoneValue = 0.01;
+
+  //field oriented toggle
+  public static boolean fieldOriented;
+
   public OI() {
     int controllerPort = 0;
     main = new Joystick(controllerPort);

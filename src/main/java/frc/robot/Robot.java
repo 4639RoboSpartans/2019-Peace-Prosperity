@@ -7,6 +7,9 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -29,17 +32,18 @@ public class Robot extends TimedRobot {
   private SendableChooser<Command> chooser;
   private Command elevatorCommand;
   private ElevatorSys m_elevator;
-
+  private AHRS navx;
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
+    navx = new AHRS(SPI.Port.kMXP);
     m_oi = new OI();
-    m_drive = new DriveTrainSys();
+    m_drive = new DriveTrainSys(navx);
     m_elevator = new ElevatorSys();
-    m_drive.setDefaultCommand(new DriveCommand(m_drive, m_oi));
+    m_drive.setDefaultCommand(new DriveCommand(m_drive, m_oi, navx));
     chooser = new SendableChooser<>();
 
     chooser.setDefaultOption("Default Height", new ElevateCommand(m_elevator, 0));
