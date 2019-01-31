@@ -18,6 +18,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ElevateCommand;
 import frc.robot.subsystems.DriveTrainSys;
 import frc.robot.subsystems.ElevatorSys;
+import frc.robot.Height;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -30,7 +31,7 @@ public class Robot extends TimedRobot {
   private DriveTrainSys m_drive;
   private OI m_oi;
   private SendableChooser<Command> chooser;
-  private Command elevatorCommand;
+  private ElevateCommand elevatorCommand;
   private ElevatorSys m_elevator;
   private AHRS navx;
   /**
@@ -46,13 +47,13 @@ public class Robot extends TimedRobot {
     m_drive.setDefaultCommand(new DriveCommand(m_drive, m_oi, navx));
     chooser = new SendableChooser<>();
 
-    chooser.setDefaultOption("Default Height", new ElevateCommand(m_elevator, 0));
-    chooser.addOption("Middle Rocket Hatch", new ElevateCommand(m_elevator, 1));
-    chooser.addOption("High Rocket Hatch", new ElevateCommand(m_elevator, 2));
+    chooser.setDefaultOption("Default Height", new ElevateCommand(m_elevator, Height.DEFAULT));
+    chooser.addOption("Middle Rocket Hatch", new ElevateCommand(m_elevator, Height.MIDDLE_HATCH));
+    chooser.addOption("High Rocket Hatch", new ElevateCommand(m_elevator, Height.HIGH_HATCH));
     
-    chooser.addOption("Low Rocket Ball Hole", new ElevateCommand(m_elevator, 3));
-    chooser.addOption("Middle Rocket Ball Hole", new ElevateCommand(m_elevator, 4));
-    chooser.addOption("High Rocket Ball Hole", new ElevateCommand(m_elevator, 5));
+    chooser.addOption("Low Rocket Ball Hole", new ElevateCommand(m_elevator, Height.LOW_BALL));
+    chooser.addOption("Middle Rocket Ball Hole", new ElevateCommand(m_elevator, Height.MIDDLE_BALL));
+    chooser.addOption("High Rocket Ball Hole", new ElevateCommand(m_elevator, Height.HIGH_BALL));
   }
 
   /**
@@ -115,9 +116,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    elevatorCommand = chooser.getSelected();
-    elevatorCommand.start();
-    Scheduler.getInstance().run();
+    ElevateCommand tempCommand = (ElevateCommand) chooser.getSelected();
+    if (!tempCommand.equals(elevatorCommand)) {
+      elevatorCommand = tempCommand;
+      elevatorCommand.start();
+      Scheduler.getInstance().run();
+    }
   }
 
   /**
