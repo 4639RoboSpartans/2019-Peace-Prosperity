@@ -50,4 +50,8 @@ public class ElevateCommand extends Command {
   protected void interrupted() {
     end();
   }
+
+  public boolean equals(ElevateCommand e) {
+    return height == e.height;
+  }
 }

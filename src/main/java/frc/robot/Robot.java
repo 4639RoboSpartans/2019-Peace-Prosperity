@@ -18,7 +18,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ElevateCommand;
 import frc.robot.subsystems.DriveTrainSys;
 import frc.robot.subsystems.ElevatorSys;
-import frc.robot.Height;;
+import frc.robot.Height;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
   private DriveTrainSys m_drive;
   private OI m_oi;
   private SendableChooser<Command> chooser;
-  private Command elevatorCommand;
+  private ElevateCommand elevatorCommand;
   private ElevatorSys m_elevator;
   private AHRS navx;
   /**
@@ -116,9 +116,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    elevatorCommand = chooser.getSelected();
-    elevatorCommand.start();
-    Scheduler.getInstance().run();
+    ElevateCommand tempCommand = (ElevateCommand) chooser.getSelected();
+    if (!tempCommand.equals(elevatorCommand)) {
+      elevatorCommand = tempCommand;
+      elevatorCommand.start();
+      Scheduler.getInstance().run();
+    }
   }
 
   /**
