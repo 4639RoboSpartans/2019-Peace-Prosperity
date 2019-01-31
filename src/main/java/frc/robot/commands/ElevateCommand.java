@@ -8,15 +8,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.Height;
 import frc.robot.subsystems.ElevatorSys;
 
 public class ElevateCommand extends Command {
   private ElevatorSys m_elevator;
-  private int num;
+  private Height height;
 
-  public ElevateCommand(ElevatorSys es, int num) {
+  public ElevateCommand(ElevatorSys es, Height height) {
     this.m_elevator = es;
-    this.num = num;
+    this.height = height;
     requires(m_elevator);
   }
 
@@ -28,7 +29,7 @@ public class ElevateCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    m_elevator.move(num);
+    m_elevator.move(height);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -48,5 +49,9 @@ public class ElevateCommand extends Command {
   @Override
   protected void interrupted() {
     end();
+  }
+
+  public boolean equals(ElevateCommand e) {
+    return height == e.height;
   }
 }
