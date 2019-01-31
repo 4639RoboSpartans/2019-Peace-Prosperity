@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import frc.robot.Height;
 
 //pitch diam 1.432 inches
 //use that diameter to find the arc length
@@ -44,8 +45,9 @@ public class ElevatorSys extends InjectedSubsystem {
     pid = new PIDController(P, I, D, enc, motor);
   }
 
-  public void move(int num) {
-    pid.setSetpoint(heights[num]);
+  public void move(Height height) {
+
+    pid.setSetpoint(Height.getIndex(height));
     pid.enable();
   }
 
