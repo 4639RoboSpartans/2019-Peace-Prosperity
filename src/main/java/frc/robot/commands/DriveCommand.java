@@ -33,6 +33,7 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    //set gyro angle to 0 if field oriented is off
     m_drive.drive(m_oi.getControllerX(), m_oi.getControllerY(), m_oi.getControllerZ(), (OI.fieldOriented ? navx.getYaw() : 0.0));
   }
 

@@ -30,7 +30,7 @@ import frc.robot.Height;
 public class Robot extends TimedRobot {
   private DriveTrainSys m_drive;
   private OI m_oi;
-  private SendableChooser<Command> chooser;
+  private SendableChooser<ElevateCommand> chooser;
   private ElevateCommand elevatorCommand;
   private ElevatorSys m_elevator;
   private AHRS navx;
@@ -54,6 +54,8 @@ public class Robot extends TimedRobot {
     chooser.addOption("Low Rocket Ball Hole", new ElevateCommand(m_elevator, Height.LOW_BALL));
     chooser.addOption("Middle Rocket Ball Hole", new ElevateCommand(m_elevator, Height.MIDDLE_BALL));
     chooser.addOption("High Rocket Ball Hole", new ElevateCommand(m_elevator, Height.HIGH_BALL));
+
+    elevatorCommand = chooser.getSelected();
   }
 
   /**
@@ -116,7 +118,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    ElevateCommand tempCommand = (ElevateCommand) chooser.getSelected();
+    //check to see if selected command is changed
+    ElevateCommand tempCommand = chooser.getSelected();
     if (!tempCommand.equals(elevatorCommand)) {
       elevatorCommand = tempCommand;
       elevatorCommand.start();
