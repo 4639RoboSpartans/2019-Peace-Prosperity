@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import frc.robot.commands.BallIntakeCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.ElevateCommand;
+import frc.robot.subsystems.BallIntakeSys;
 import frc.robot.subsystems.DriveTrainSys;
 import frc.robot.subsystems.ElevatorSys;
 import frc.robot.Height;
@@ -33,6 +35,8 @@ public class Robot extends TimedRobot {
   private ElevateCommand elevatorCommand;
   private ElevatorSys m_elevator;
   private AHRS navx;
+  private BallIntakeSys m_intake;
+  
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
@@ -41,6 +45,8 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     navx = new AHRS(SPI.Port.kMXP);
     m_oi = new OI();
+    m_intake = new BallIntakeSys();
+    m_intake.setDefaultCommand(new BallIntakeCommand(m_intake, m_oi)); 
     m_drive = new DriveTrainSys(navx);
     m_elevator = new ElevatorSys();
     m_drive.setDefaultCommand(new DriveCommand(m_drive, m_oi, navx));
