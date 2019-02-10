@@ -29,6 +29,14 @@ public class HatchIntakeCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    boolean left = m_oi.leftButtonPressed();
+    boolean right = m_oi.rightButtonPressed();
+
+    //  if both buttons are currently pressed do nothing
+    if(left ^ right) {
+      // double check these values
+      m_intake.setServo(left ? 0.5:0);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()

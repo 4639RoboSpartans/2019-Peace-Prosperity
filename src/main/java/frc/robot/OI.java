@@ -16,6 +16,15 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI {
   private Joystick main;
   private static double deadzoneValue = 0.01;
+  private static int leftTrigger = 2;
+  private static int rightTrigger = 3;
+
+  private static final int leftButton = 5;
+  private static final int rightButton = 6;
+
+  private boolean leftButtonPressed;
+  private boolean rightButtonPressed;
+
 
   //field oriented toggle
   public static boolean fieldOriented = false;
@@ -26,6 +35,7 @@ public class OI {
     main.setXChannel(1);
     main.setYChannel(0);
     main.setZChannel(4);
+    
   }
 
   /**
@@ -64,4 +74,32 @@ public class OI {
     double valueZ = main.getZ();
     return deadzone(valueZ);
   }
+
+  public double getLeftTrigger() {
+    return deadzone(main.getRawAxis(leftTrigger)); 
+  }
+
+  public double getRightTrigger() {
+    return deadzone(main.getRawAxis(rightTrigger));
+  }
+
+  public boolean leftButtonPressed() {
+    if(main.getRawButtonPressed(leftButton)) {
+      leftButtonPressed = true;
+    } else if(main.getRawButtonReleased(leftButton)) {
+      leftButtonPressed = false;
+    }
+    return leftButtonPressed;
+  
+  }
+  
+  public boolean rightButtonPressed() {
+    if(main.getRawButtonPressed(rightButton)) {
+      rightButtonPressed = true;
+    } else if(main.getRawButtonReleased(leftButton)) {
+      rightButtonPressed = false;
+    }
+    return rightButtonPressed;
+  }
+  
 }
