@@ -36,7 +36,7 @@ public class ElevateCommand extends PIDCommand {
 
   @Override
   protected double returnPIDInput() {
-    return m_elevator.getEncoder().getRaw();
+    return m_elevator.getEncoder().get();
   }
   @Override
   public boolean isFinished() {
