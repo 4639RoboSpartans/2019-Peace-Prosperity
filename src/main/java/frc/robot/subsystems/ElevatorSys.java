@@ -25,10 +25,6 @@ public class ElevatorSys extends InjectedSubsystem {
 
   private static WPI_TalonSRX motor;
 
-  //placeholder values
-  public static int[] heights = {0, 1, 2, //hatch heights
-    0, 1, 2}; //ball heights
-
   private static Encoder enc;
 
   private static int encChannel0 = 0;
@@ -51,7 +47,15 @@ public class ElevatorSys extends InjectedSubsystem {
     pid.enable();
   }
 
+  public void move(double speed) {
+    motor.set(speed);
+  }
+
   public void resetPid() {
     pid.reset();
+  }
+
+  public Encoder getEncoder() {
+    return enc;
   }
 }
