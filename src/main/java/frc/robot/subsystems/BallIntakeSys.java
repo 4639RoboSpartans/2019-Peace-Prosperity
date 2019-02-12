@@ -7,22 +7,22 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
  * Add your docs here.
  */
 public class BallIntakeSys extends InjectedSubsystem {
-  private static WPI_VictorSPX intakeLeftMotor;
-  private static WPI_VictorSPX intakeRightMotor;
-  private static WPI_VictorSPX intakeTopMotor;
+  private static WPI_TalonSRX intakeLeftMotor;
+  private static WPI_TalonSRX intakeRightMotor;
+  private static WPI_TalonSRX intakeTopMotor;
 
   
   // temporary port numbers
   public static final int intakeRight = 0;
   public static final int intakeLeft = 1;
   public static final int intakeTop = 2;
+  public static final double topMotorFactor = 0.8;
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
@@ -30,9 +30,9 @@ public class BallIntakeSys extends InjectedSubsystem {
 
 
 	public BallIntakeSys() {
-		intakeLeftMotor = new WPI_VictorSPX(intakeLeft);
-		intakeRightMotor = new WPI_VictorSPX(intakeRight);
-		intakeTopMotor = new WPI_VictorSPX(intakeTop);
+		intakeLeftMotor = new WPI_TalonSRX(intakeLeft);
+		intakeRightMotor = new WPI_TalonSRX(intakeRight);
+		intakeTopMotor = new WPI_TalonSRX(intakeTop);
 		// makes right and top motor opposite to left
 		intakeRightMotor.setInverted(true);
 		intakeTopMotor.setInverted(true);
@@ -50,13 +50,13 @@ public class BallIntakeSys extends InjectedSubsystem {
 	public void intake(double intakeSpeed) {
 		intakeLeftMotor.set(intakeSpeed);
 		intakeRightMotor.set(intakeSpeed);
-		intakeTopMotor.set(intakeSpeed);
+		intakeTopMotor.set(intakeSpeed * topMotorFactor);
 	}
 
 	public void outtake(double outtakeSpeed) {
 		intakeLeftMotor.set(-outtakeSpeed);
 		intakeRightMotor.set(-outtakeSpeed);
-		intakeTopMotor.set(-outtakeSpeed);
+		intakeTopMotor.set(-outtakeSpeed * topMotorFactor);
 	}
 
 	public void stop() {
