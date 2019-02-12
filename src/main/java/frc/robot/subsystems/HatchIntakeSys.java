@@ -7,38 +7,27 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Servo;
 
-public class HatchIntakeSys extends Command {
+public class HatchIntakeSys extends InjectedSubsystem {
+
+
+   // temporary port number
+  private static final int servoPort = 1;
+
+  private Servo servo;
+
   public HatchIntakeSys() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    servo = new Servo(servoPort);
   }
 
-  // Called just before this Command runs the first time
-  @Override
-  protected void initialize() {
+  public void setServo(double value) {
+    servo.set(value);
   }
 
-  // Called repeatedly when this Command is scheduled to run
-  @Override
-  protected void execute() {
+  public void stop() {
+    servo.stopMotor();
   }
 
-  // Make this return true when this Command no longer needs to run execute()
-  @Override
-  protected boolean isFinished() {
-    return false;
-  }
 
-  // Called once after isFinished returns true
-  @Override
-  protected void end() {
-  }
-
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
-  @Override
-  protected void interrupted() {
-  }
 }
