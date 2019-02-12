@@ -32,7 +32,7 @@ public class HatchIntakeCommand extends Command {
     boolean left = m_oi.leftButtonPressed();
     boolean right = m_oi.rightButtonPressed();
 
-    //  if both buttons are currently pressed do nothing
+     //  if both buttons are currently pressed do nothing
     if(left ^ right) {
       // double check these values
       m_intake.setServo(left ? 0.5:0);
