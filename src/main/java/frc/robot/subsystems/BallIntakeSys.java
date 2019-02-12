@@ -38,7 +38,7 @@ public class BallIntakeSys extends InjectedSubsystem {
 		intakeTopMotor.setInverted(true);
 	}
 
-	// Decides whether to intake or outtake
+	 // Decides whether to intake or outtake
 	public void ballIntake(double intakeSpeed, double outtakeSpeed) {
 		if (intakeSpeed > outtakeSpeed) {
 			intake(intakeSpeed);

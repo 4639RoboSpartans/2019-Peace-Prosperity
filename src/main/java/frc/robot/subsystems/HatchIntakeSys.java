@@ -7,13 +7,23 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Servo;
+
 public class HatchIntakeSys extends InjectedSubsystem {
+   // temporary port number
+  private static final int servoPort = 1;
+
+  private Servo servo;
+
   public HatchIntakeSys() {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    servo = new Servo(servoPort);
   }
 
-  public void setServo(double speed) {
-    //TODO add code here
+  public void setServo(double value) {
+    servo.set(value);
+  }
+
+  public void stop() {
+    servo.stopMotor();
   }
 }
