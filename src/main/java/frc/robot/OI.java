@@ -72,21 +72,23 @@ public class OI {
     return deadzone(main.getRawAxis(rightTrigger));
   }
 
-  // public boolean leftButtonPressed() {
-  //   if(main.getRawButtonPressed(leftButton)) {
-  //     leftButtonPressed = true;
-  //   } else if(main.getRawButtonReleased(leftButton)) {
-  //     leftButtonPressed = false;
-  //   }
-  //   return leftButtonPressed;
-  // }
+  public boolean leftButtonPressed() {
+    boolean leftButtonPressed = false;
+    if(main.getRawButtonPressed(leftButton)) {
+      leftButtonPressed = true;
+    } else if(main.getRawButtonReleased(leftButton)) {
+      leftButtonPressed = false;
+    }
+    return leftButtonPressed;
+  }
   
-  // public boolean rightButtonPressed() {
-  //   if(main.getRawButtonPressed(rightButton)) {
-  //     rightButtonPressed = true;
-  //   } else if(main.getRawButtonReleased(leftButton)) {
-  //     rightButtonPressed = false;
-  //   }
-  //   return rightButtonPressed;
-  // }
+  public boolean rightButtonPressed() {
+    boolean rightButtonPressed = false;
+    if(main.getRawButtonPressed(rightButton)) {
+      rightButtonPressed = true;
+    } else if(main.getRawButtonReleased(leftButton)) {
+      rightButtonPressed = false;
+    }
+    return rightButtonPressed;
+  }
 }

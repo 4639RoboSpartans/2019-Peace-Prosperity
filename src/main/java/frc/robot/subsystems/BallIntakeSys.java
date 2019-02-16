@@ -9,11 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import frc.robot.enums.Pivot;
-
 /**
  * Add your docs here.
  */
