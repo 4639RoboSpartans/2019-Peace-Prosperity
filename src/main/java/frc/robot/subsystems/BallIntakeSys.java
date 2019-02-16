@@ -21,19 +21,11 @@ public class BallIntakeSys extends InjectedSubsystem {
 	private static final int intakeRight = 0;
 	private static final int intakeLeft = 1;
 	private static final int intakeTop = 2;
-	private static final int intakePivot = 3;
 	private static final double topMotorFactor = 0.8;
-	private static final double P = 0, I = 0, D = 0;
-
-	private static final int loweredSetpoint = 0;
-	private static final int raisedSetpoint = 256;
 
 	private final WPI_TalonSRX intakeLeftMotor;
 	private final WPI_TalonSRX intakeRightMotor;
 	private final WPI_TalonSRX intakeTopMotor;
-	private final WPI_TalonSRX intakePivotMotor;
-	private final Encoder encoder;
-	private final PIDController pid;
 
 	public boolean isLowered = true;
 	
@@ -41,13 +33,8 @@ public class BallIntakeSys extends InjectedSubsystem {
 		this.intakeLeftMotor = new WPI_TalonSRX(intakeLeft);
 		this.intakeRightMotor = new WPI_TalonSRX(intakeRight);
 		this.intakeTopMotor = new WPI_TalonSRX(intakeTop);
-		this.intakePivotMotor = new WPI_TalonSRX(intakePivot);
 		this.intakeRightMotor.setInverted(true);
 		this.intakeTopMotor.setInverted(true);
-
-		this.encoder = new Encoder(0, 1, false, EncodingType.k4X);
-		this.pid = new PIDController(P, I, D, encoder, intakePivotMotor);
-		this.pid.setOutputRange(-1, 1);
 	}
 
 	public void intake(double intakeSpeed) {
@@ -60,9 +47,5 @@ public class BallIntakeSys extends InjectedSubsystem {
 		intakeLeftMotor.stopMotor();
 		intakeRightMotor.stopMotor();
 		intakeTopMotor.stopMotor();
-	}
-
-	public void pivot(Pivot pivot) {
-		pid.setSetpoint(pivot.getAmount());
 	}
 }
