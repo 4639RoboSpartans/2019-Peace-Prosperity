@@ -10,55 +10,44 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import frc.robot.enums.Pivot;
 
 /**
  * Add your docs here.
  */
 public class BallIntakeSys extends InjectedSubsystem {
-	private static WPI_TalonSRX intakeLeftMotor;
-	private static WPI_TalonSRX intakeRightMotor;
-	private static WPI_TalonSRX intakeTopMotor;
-	private static WPI_TalonSRX intakePivotMotor;
-	
-	private static Encoder encoder;
-
-  	// temporary port numbers
 	private static final int intakeRight = 0;
 	private static final int intakeLeft = 1;
 	private static final int intakeTop = 2;
 	private static final int intakePivot = 3;
 	private static final double topMotorFactor = 0.8;
+	private static final double P = 0, I = 0, D = 0;
 
 	private static final int loweredSetpoint = 0;
 	private static final int raisedSetpoint = 256;
+
+	private final WPI_TalonSRX intakeLeftMotor;
+	private final WPI_TalonSRX intakeRightMotor;
+	private final WPI_TalonSRX intakeTopMotor;
+	private final WPI_TalonSRX intakePivotMotor;
+	private final Encoder encoder;
+	private final PIDController pid;
+
 	public boolean isLowered = true;
-	private static final int P = 0, I = 0, D = 0;
-	private int integral, previous_error = 0;
-	private double rcw = 0;
 	
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-
 	public BallIntakeSys() {
-		intakeLeftMotor = new WPI_TalonSRX(intakeLeft);
-		intakeRightMotor = new WPI_TalonSRX(intakeRight);
-		intakeTopMotor = new WPI_TalonSRX(intakeTop);
-		intakePivotMotor = new WPI_TalonSRX(intakePivot);
-		// makes right and top motor opposite to left
-		intakeRightMotor.setInverted(true);
-		intakeTopMotor.setInverted(true);
+		this.intakeLeftMotor = new WPI_TalonSRX(intakeLeft);
+		this.intakeRightMotor = new WPI_TalonSRX(intakeRight);
+		this.intakeTopMotor = new WPI_TalonSRX(intakeTop);
+		this.intakePivotMotor = new WPI_TalonSRX(intakePivot);
+		this.intakeRightMotor.setInverted(true);
+		this.intakeTopMotor.setInverted(true);
 
-		encoder = new Encoder(0, 1, false, EncodingType.k4X);
-	}
-
-	 // Decides whether to intake or outtake
-	public void ballIntake(double intakeSpeed, double outtakeSpeed) {
-		if (intakeSpeed > outtakeSpeed) {
-			intake(intakeSpeed);
-		} else if (outtakeSpeed > intakeSpeed) {
-			outtake(outtakeSpeed);
-		}
+		this.encoder = new Encoder(0, 1, false, EncodingType.k4X);
+		this.pid = new PIDController(P, I, D, encoder, intakePivotMotor);
+		this.pid.setOutputRange(-1, 1);
 	}
 
 	public void intake(double intakeSpeed) {
@@ -67,27 +56,13 @@ public class BallIntakeSys extends InjectedSubsystem {
 		intakeTopMotor.set(intakeSpeed * topMotorFactor);
 	}
 
-	public void outtake(double outtakeSpeed) {
-		intakeLeftMotor.set(-outtakeSpeed);
-		intakeRightMotor.set(-outtakeSpeed);
-		intakeTopMotor.set(-outtakeSpeed * topMotorFactor);
+	public void stopIntake() {
+		intakeLeftMotor.stopMotor();
+		intakeRightMotor.stopMotor();
+		intakeTopMotor.stopMotor();
 	}
 
-	public void stop() {
-		intakeLeftMotor.set(0);
-		intakeRightMotor.set(0);
-		intakeTopMotor.set(0);
-	}
-
-	public void PID(int setpoint) {
-		double error = setpoint - encoder.get();
-		this.integral += (error * .02);
-		double derivative = (error - this.previous_error) / .02;
-		this.rcw = P*error + I*this.integral + D*derivative;
-	} 
-	
-	public void pivotIntake() {
-		PID(isLowered ? raisedSetpoint : loweredSetpoint);
-		intakePivotMotor.set(rcw);
+	public void pivot(Pivot pivot) {
+		pid.setSetpoint(pivot.getAmount());
 	}
 }

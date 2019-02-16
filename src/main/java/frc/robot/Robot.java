@@ -21,7 +21,6 @@ import frc.robot.subsystems.BallIntakeSys;
 import frc.robot.subsystems.DriveTrainSys;
 import frc.robot.subsystems.ElevatorSys;
 import frc.robot.subsystems.HatchIntakeSys;
-import frc.robot.Height;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -49,9 +48,7 @@ public class Robot extends TimedRobot {
     navx = new AHRS(SPI.Port.kMXP);
     m_oi = new OI();
     m_ballIntake = new BallIntakeSys();
-    m_ballIntake.setDefaultCommand(new BallIntakeCommand(m_ballIntake, m_oi)); 
     m_hatchIntake = new HatchIntakeSys();
-    m_hatchIntake.setDefaultCommand(new HatchIntakeCommand(m_hatchIntake, m_oi));
     m_drive = new DriveTrainSys(navx);
     m_elevator = new ElevatorSys();
     m_drive.setDefaultCommand(new DriveCommand(m_drive, m_oi, navx));

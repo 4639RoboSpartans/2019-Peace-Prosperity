@@ -12,27 +12,31 @@ public class DriveTrainSys extends InjectedSubsystem {
     private static int rearLeftMotor = 3;
     private static int rearRightMotor = 4;
 
-    private static WPI_TalonSRX frontLeft;
-    private static WPI_TalonSRX frontRight;
-    private static WPI_TalonSRX rearLeft;
-    private static WPI_TalonSRX rearRight;
-    private static MecanumDrive drive;
+    private final WPI_TalonSRX frontLeft;
+    private final WPI_TalonSRX frontRight;
+    private final WPI_TalonSRX rearLeft;
+    private final WPI_TalonSRX rearRight;
+    private final MecanumDrive drive;
 
     public DriveTrainSys(AHRS navx) {
-        frontLeft = new WPI_TalonSRX(frontLeftMotor);
-        frontRight = new WPI_TalonSRX(frontRightMotor);
-        rearLeft = new WPI_TalonSRX(rearLeftMotor);
-        rearRight = new WPI_TalonSRX(rearRightMotor);
+        this.frontLeft = new WPI_TalonSRX(frontLeftMotor);
+        this.frontRight = new WPI_TalonSRX(frontRightMotor);
+        this.rearLeft = new WPI_TalonSRX(rearLeftMotor);
+        this.rearRight = new WPI_TalonSRX(rearRightMotor);
 
-        frontLeft.setInverted(true);
-        rearLeft.setInverted(true);
+        this.frontLeft.setInverted(true);
+        this.rearLeft.setInverted(true);
 
-        drive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+        this.drive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
     }
 
 
     public void drive(double xSpeed, double ySpeed, double zRotation, double gyroAngle) {
         drive.driveCartesian(xSpeed, ySpeed, zRotation, gyroAngle);
+    }
+
+    public void drive(double xSpeed, double ySpeed, double zRotation) {
+        drive.driveCartesian(xSpeed, ySpeed, zRotation);
     }
 
     public void stop() {

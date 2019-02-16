@@ -14,9 +14,9 @@ import frc.robot.OI;
 import frc.robot.subsystems.DriveTrainSys;
 
 public class DriveCommand extends Command {
-  private DriveTrainSys m_drive;
-  private OI m_oi;
-  private AHRS navx;
+  private final DriveTrainSys m_drive;
+  private final OI m_oi;
+  private final AHRS navx;
 
   public DriveCommand(DriveTrainSys m_drive, OI m_oi, AHRS navx) {
     this.m_drive = m_drive;
@@ -25,31 +25,24 @@ public class DriveCommand extends Command {
     requires(m_drive);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   } 
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    //set gyro angle to 0 if field oriented is off
     m_drive.drive(m_oi.getControllerX(), m_oi.getControllerY(), m_oi.getControllerZ(), (OI.fieldOriented ? navx.getYaw() : 0.0));
   }
 
-  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
   @Override
   protected void end() {
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
   }

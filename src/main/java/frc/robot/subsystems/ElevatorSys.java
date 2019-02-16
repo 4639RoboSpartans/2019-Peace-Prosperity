@@ -11,7 +11,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import frc.robot.Height;
+import frc.robot.enums.Height;
 
 //pitch diam 1.432 inches
 //use that diameter to find the arc length
@@ -21,30 +21,25 @@ import frc.robot.Height;
  * Add your docs here.
  */
 public class ElevatorSys extends InjectedSubsystem {
-  private static int motorPort = 5;
+  private static final int motorPort = 5;
+  private static final int encChannel0 = 0;
+  private static final int encChannel1 = 1;
+  private static final double P = 0, I = 0, D = 0;
 
-  private static WPI_TalonSRX motor;
-
-  private static Encoder enc;
-
-  private static int encChannel0 = 0;
-  private static int encChannel1 = 1;
-
-  private double P = 0, I = 0, D = 0;
-  private PIDController pid;
+  private final WPI_TalonSRX motor;
+  private final Encoder enc;
+  private final PIDController pid;
 
   public ElevatorSys() {
-    motor = new WPI_TalonSRX(motorPort);
-
-    enc = new Encoder(encChannel0,encChannel1, false, Encoder.EncodingType.k4X);
-
-    pid = new PIDController(P, I, D, enc, motor);
+    this.motor = new WPI_TalonSRX(motorPort);
+    this.enc = new Encoder(encChannel0, encChannel1, false, Encoder.EncodingType.k4X);
+    this.pid = new PIDController(P, I, D, enc, motor);
+    this.pid.setOutputRange(-1, 1);
+    this.pid.enable();
   }
 
   public void move(Height height) {
-
-    pid.setSetpoint(Height.getIndex(height));
-    pid.enable();
+    pid.setSetpoint(height.getHeight());
   }
 
   public void move(double speed) {

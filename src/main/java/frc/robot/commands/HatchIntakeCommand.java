@@ -8,41 +8,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
+import frc.robot.enums.Hatch;
 import frc.robot.subsystems.HatchIntakeSys;
 
 public class HatchIntakeCommand extends Command {
-  private HatchIntakeSys m_intake;
-  private OI m_oi;
-  public HatchIntakeCommand(HatchIntakeSys intake, OI oi) {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
-    m_intake = intake;
-    m_oi = oi;
+  private final HatchIntakeSys m_intake;
+  private final Hatch hatch;
+
+  public HatchIntakeCommand(HatchIntakeSys m_intake, Hatch hatch) {
+    this.m_intake = m_intake;
+    this.hatch = hatch;
+    requires(m_intake);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    boolean left = m_oi.leftButtonPressed();
-    boolean right = m_oi.rightButtonPressed();
-
-     //  if both buttons are currently pressed do nothing
-    if(left ^ right) {
-      // double check these values
-      m_intake.setServo(left ? 0.5:0);
-    }
+    m_intake.setServo(hatch.getAmount());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   // Called once after isFinished returns true

@@ -7,43 +7,45 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.PIDCommand;
-import frc.robot.Height;
+import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.enums.Height;
 import frc.robot.subsystems.ElevatorSys;
 
-public class ElevateCommand extends PIDCommand {
-  private ElevatorSys m_elevator;
-  private Height height;
-
-  //placeholder values
-  public static double[] heights = {0, 1, 2, //hatch heights
-    0, 1, 2}; //ball heights
-
-  private static int P = 0, I = 0, D = 0;
+public class ElevateCommand extends Command {
+  private final ElevatorSys m_elevator;
+  private final Height height;
 
   public ElevateCommand(ElevatorSys es, Height height) {
-    super(P, I, D, es);
     this.m_elevator = es;
     this.height = height;
-
-    setSetpoint(heights[Height.getIndex(height)]);
+    requires(m_elevator);
   }
 
+  // Called just before this Command runs the first time
   @Override
-  protected void usePIDOutput(double output) {
-    m_elevator.move(output);
+  protected void initialize() {
+    m_elevator.move(height);
   }
 
+  // Called repeatedly when this Command is scheduled to run
   @Override
-  protected double returnPIDInput() {
-    return m_elevator.getEncoder().get();
-  }
-  @Override
-  public boolean isFinished() {
-    return false;
+  protected void execute() {
   }
 
-  public boolean equals(ElevateCommand e) {
-    return height == e.height;
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return true;
+  }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
   }
 }

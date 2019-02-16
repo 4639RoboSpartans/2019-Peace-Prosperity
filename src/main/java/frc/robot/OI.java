@@ -22,9 +22,6 @@ public class OI {
   private static final int leftButton = 5;
   private static final int rightButton = 6;
 
-  private boolean leftButtonPressed;
-  private boolean rightButtonPressed;
-
 
   //field oriented toggle
   public static boolean fieldOriented = false;
@@ -35,7 +32,6 @@ public class OI {
     main.setXChannel(1);
     main.setYChannel(0);
     main.setZChannel(4);
-    
   }
 
   /**
@@ -47,16 +43,9 @@ public class OI {
    * @return The deadzone value
    */
   private static double deadzone(double value) {
-    //whenever the controller moves LESS than the magic number, the 
-    //joystick is in the loose position so return zero - as if the 
-    //joystick was not moved
     if (Math.abs(value) < deadzoneValue) {
       return 0;
     }
-
-    //When the joystick is greater than the margin of error, scale the value so that the point right after the deadzone 
-    //is 0 so the robot does not jerk forward when it passes the deadzone, this is genius
-    //It properly scales the controls to the new workable zone
     return (value / Math.abs(value)) * ((Math.abs(value) - deadzoneValue) / (1 - deadzoneValue));
   }
 
@@ -83,23 +72,21 @@ public class OI {
     return deadzone(main.getRawAxis(rightTrigger));
   }
 
-  public boolean leftButtonPressed() {
-    if(main.getRawButtonPressed(leftButton)) {
-      leftButtonPressed = true;
-    } else if(main.getRawButtonReleased(leftButton)) {
-      leftButtonPressed = false;
-    }
-    return leftButtonPressed;
+  // public boolean leftButtonPressed() {
+  //   if(main.getRawButtonPressed(leftButton)) {
+  //     leftButtonPressed = true;
+  //   } else if(main.getRawButtonReleased(leftButton)) {
+  //     leftButtonPressed = false;
+  //   }
+  //   return leftButtonPressed;
+  // }
   
-  }
-  
-  public boolean rightButtonPressed() {
-    if(main.getRawButtonPressed(rightButton)) {
-      rightButtonPressed = true;
-    } else if(main.getRawButtonReleased(leftButton)) {
-      rightButtonPressed = false;
-    }
-    return rightButtonPressed;
-  }
-  
+  // public boolean rightButtonPressed() {
+  //   if(main.getRawButtonPressed(rightButton)) {
+  //     rightButtonPressed = true;
+  //   } else if(main.getRawButtonReleased(leftButton)) {
+  //     rightButtonPressed = false;
+  //   }
+  //   return rightButtonPressed;
+  // }
 }
