@@ -37,7 +37,7 @@ public class PivotCommand extends PIDCommand {
   protected boolean isFinished() {
     boolean isOnTarget = getPIDController().onTarget();
     if (isOnTarget)
-      m_pivot.isUp = !m_pivot.isUp;
+      PivotSys.isUp = !PivotSys.isUp;
     return isOnTarget;
   }
 }
