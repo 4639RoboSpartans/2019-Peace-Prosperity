@@ -20,6 +20,7 @@ import frc.robot.subsystems.BallIntakeSys;
 import frc.robot.subsystems.DriveTrainSys;
 import frc.robot.subsystems.ElevatorSys;
 import frc.robot.subsystems.HatchIntakeSys;
+import frc.robot.subsystems.PivotSys;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -37,6 +38,7 @@ public class Robot extends TimedRobot {
   private AHRS navx;
   private BallIntakeSys m_ballIntake;
   private HatchIntakeSys m_hatchIntake;
+  private PivotSys m_pivot;
   
   /**
    * This function is run when the robot is first started up and should be
@@ -50,6 +52,7 @@ public class Robot extends TimedRobot {
     m_hatchIntake = new HatchIntakeSys();
     m_drive = new DriveTrainSys(navx);
     m_elevator = new ElevatorSys();
+    m_pivot = new PivotSys();
     m_drive.setDefaultCommand(new DriveCommand(m_drive, m_oi, navx));
     chooser = new SendableChooser<>();
 
