@@ -18,6 +18,9 @@ public class DriveCommand extends Command {
   private final OI m_oi;
   private final AHRS navx;
 
+  //toggle for field oriented driving
+  private final boolean fieldOriented = false;
+
   public DriveCommand(DriveTrainSys m_drive, OI m_oi, AHRS navx) {
     this.m_drive = m_drive;
     this.m_oi = m_oi;
@@ -31,7 +34,7 @@ public class DriveCommand extends Command {
 
   @Override
   protected void execute() {
-    m_drive.drive(m_oi.getControllerX(), m_oi.getControllerY(), m_oi.getControllerZ(), (OI.fieldOriented ? navx.getYaw() : 0.0));
+    m_drive.drive(m_oi.getLeftX(0), m_oi.getLeftY(0), m_oi.getRightX(0), (fieldOriented ? navx.getYaw() : 0.0));
   }
 
   @Override

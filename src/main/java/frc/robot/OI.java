@@ -8,87 +8,83 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
-  private Joystick main;
+  private Joystick[] sticks;
+  private JoystickButton[][] buttons;
+
+  // port values of the axes/buttons
+	private static int leftJoystickX = 0, leftJoystickY = 1, leftTrigger = 2, rightTrigger = 3, rightJoystickX = 4,
+  rightJoystickY = 5;
+
   private static double deadzoneValue = 0.01;
-  private static int leftTrigger = 2;
-  private static int rightTrigger = 3;
-
-  private static final int leftButton = 5;
-  private static final int rightButton = 6;
-
-
-  //field oriented toggle
-  public static boolean fieldOriented = false;
 
   public OI() {
-    int controllerPort = 0;
-    main = new Joystick(controllerPort);
-    main.setXChannel(1);
-    main.setYChannel(0);
-    main.setZChannel(4);
+    buttons = new JoystickButton[6][8];
+    for (int i = 0; i < 6; i++) {
+      sticks[i] = new Joystick(i);
+      for (int j = 0; j < 8; j++) {
+        buttons[i][j] = new JoystickButton(sticks[i], j);
+      }
+    }
   }
 
   /**
-   * Creates a deadzone for joysticks, the controller sticks are a little
-   * loose and so there is a margin of error for where they should be
-   * considered "neutral/not pushed"
-   * 
-   * @param value Double between -1 and 1 to be deadzoned
-   * @return The deadzone value
-   */
-  private static double deadzone(double value) {
-    if (Math.abs(value) < deadzoneValue) {
-      return 0;
-    }
-    return (value / Math.abs(value)) * ((Math.abs(value) - deadzoneValue) / (1 - deadzoneValue));
-  }
+	 * Creates a deadzone for joysticks, the controllers sticks are a little loose
+	 * and so there is a margin of error for where they should be considered
+	 * "neutral/not pushed"
+	 *
+	 * @param d Double between -1 and 1 to be deadzoned
+	 * @return The deadzone value
+	 */
+	private static double deadzone(double value) {
+		// whenever the controller moves LESS than the magic number, the
+		// joystick is in the loose position so return zero - as if the
+		// joystick was not moved
+		if (Math.abs(value) < deadzoneValue) {
+			return 0;
+		}
 
-  public double getControllerX() {
-    double valueX = main.getX();
-    return deadzone(-valueX);
-  }
-
-  public double getControllerY() {
-    double valueY = main.getY();
-    return deadzone(valueY);
-  }
-
-  public double getControllerZ() {
-    double valueZ = main.getZ();
-    return deadzone(valueZ);
-  }
-
-  public double getLeftTrigger() {
-    return deadzone(main.getRawAxis(leftTrigger)); 
-  }
-
-  public double getRightTrigger() {
-    return deadzone(main.getRawAxis(rightTrigger));
-  }
-
-  public boolean leftButtonPressed() {
-    boolean leftButtonPressed = false;
-    if(main.getRawButtonPressed(leftButton)) {
-      leftButtonPressed = true;
-    } else if(main.getRawButtonReleased(leftButton)) {
-      leftButtonPressed = false;
-    }
-    return leftButtonPressed;
+		// When the joystick is greater than the margin of error, scale the value so
+		// that the point right after the deadzone
+		// is 0 so the robot does not jerk forward when it passes the deadzone, this is
+		// genius
+		// It properly scales the controls to the new workable zone
+		return (value / Math.abs(value)) * ((Math.abs(value) - deadzoneValue) / (1 - deadzoneValue));
   }
   
-  public boolean rightButtonPressed() {
-    boolean rightButtonPressed = false;
-    if(main.getRawButtonPressed(rightButton)) {
-      rightButtonPressed = true;
-    } else if(main.getRawButtonReleased(leftButton)) {
-      rightButtonPressed = false;
-    }
-    return rightButtonPressed;
+  public double getLeftX(int joystick) {
+    double valueLeftX = sticks[joystick].getRawAxis(leftJoystickX);
+    return deadzone(valueLeftX);
+  }
+
+  public double getLeftY(int joystick) {
+    double valueLeftY = sticks[joystick].getRawAxis(leftJoystickY);
+    return deadzone(-valueLeftY);
+  }
+
+  public double getRightX(int joystick) {
+    double valueRightX = sticks[joystick].getRawAxis(rightJoystickX);
+    return deadzone(valueRightX);
+  }
+
+  public double getRightY(int joystick) {
+    double valueRightY = sticks[joystick].getRawAxis(rightJoystickY);
+    return deadzone(-valueRightY);
+  }
+
+  public double getLeftTrigger(int joystick) {
+    double valueLeftTrigger = sticks[joystick].getRawAxis(leftTrigger);
+    return deadzone(valueLeftTrigger);
+  }
+
+  public double getRightTrigger(int joystick) {
+    double valueRightTrigger = sticks[joystick].getRawAxis(rightTrigger);
+    return deadzone(valueRightTrigger);
+  }
+
+  public boolean getButton(int joystick, int button) {
+    return buttons[joystick][button].get();
   }
 }
