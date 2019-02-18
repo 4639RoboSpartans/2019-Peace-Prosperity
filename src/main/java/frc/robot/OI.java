@@ -8,11 +8,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
   private Joystick[] sticks;
-  private JoystickButton[][] buttons;
+  private Button[][] buttons;
 
   // port values of the axes/buttons
 	private static int leftJoystickX = 0, leftJoystickY = 1, leftTrigger = 2, rightTrigger = 3, rightJoystickX = 4,
