@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2019.2.1"
+    id "com.diffplug.gradle.spotless" version "3.18.0"
 }
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
@@ -42,20 +43,26 @@ repositories {
     mavenCentral()
 }
 
-// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
-// Also defines JUnit 4.
-dependencies {
-    compile wpi.deps.wpilib()
-    compile wpi.deps.vendor.java()
-    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
-    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
-    testCompile 'junit:junit:4.12'
+spotless {
+  java {
+    eclipse()
+    licenseHeaderFile 'frc_license.txt'
+    importOrder 'java', 'edu.wpi', 'frc.robot', 'com.kauailabs', 'com.ctre', ''
+    removeUnusedImports()
+    trimTrailingWhitespace()
+    endWithNewline()
+  }
 }
 
-// Setting up my Jar File. In this case, adding all libraries into the main jar ('fat jar')
-// in order to make them all available at runtime. Also adding the manifest so WPILib
-// knows where to look for our Robot Class.
+dependencies {
+    implementation wpi.deps.wpilib()
+    implementation wpi.deps.vendor.java()
+    nativeZip wpi.deps.vendor.jni(wpi.platforms.roborio)
+    nativeDesktopZip wpi.deps.vendor.jni(wpi.platforms.desktop)
+    testImplementation 'junit:junit:4.12'
+}
+
 jar {
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    from { configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) } }
     manifest edu.wpi.first.gradlerio.GradleRIOPlugin.javaManifest(ROBOT_MAIN_CLASS)
 }
