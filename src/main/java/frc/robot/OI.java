@@ -37,7 +37,7 @@ public class OI {
 	 *
 	 * @param d
 	 *            Double between -1 and 1 to be deadzoned
-	 * @return The deadzone value
+	 * @return The deadzoned value
 	 */
 	private static double deadzone(double value) {
 		// whenever the controller moves LESS than the magic number, the
@@ -84,7 +84,7 @@ public class OI {
 		return deadzone(valueRightTrigger);
 	}
 
-	public boolean getButton(int joystick, int button) {
-		return buttons[joystick][button].get();
+	public Button getButton(int joystick, int button) {
+		return buttons[joystick][button];
 	}
 }

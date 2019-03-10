@@ -20,8 +20,8 @@ import frc.robot.subsystems.HatchIntakeSys;
 import frc.robot.subsystems.PivotSys;
 
 public class Robot extends TimedRobot {
-	private DriveTrainSys m_drive;
 	private OI m_oi;
+	private DriveTrainSys m_drive;
 	private SendableChooser<ElevateCmd> chooser;
 	private ElevateCmd elevatorCommand;
 	private ElevatorSys m_elevator;
@@ -34,12 +34,12 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		m_ballIntake = new BallIntakeSys();
 		m_hatchIntake = new HatchIntakeSys();
-		m_drive = new DriveTrainSys(navx);
+		m_drive = new DriveTrainSys();
 		m_elevator = new ElevatorSys();
 		m_pivot = new PivotSys();
-		m_drive.setDefaultCommand(new DriveCmd(m_drive, m_oi, navx));
-		chooser = new SendableChooser<>();
+		m_drive.setDefaultCommand(new DriveCmd(m_drive, m_oi));
 
+		chooser = new SendableChooser<>();
 		chooser.setDefaultOption("Default Height", new ElevateCmd(m_elevator, Height.DEFAULT));
 		chooser.addOption("Middle Rocket Hatch", new ElevateCmd(m_elevator, Height.MIDDLE_HATCH));
 		chooser.addOption("High Rocket Hatch", new ElevateCmd(m_elevator, Height.HIGH_HATCH));
@@ -47,8 +47,6 @@ public class Robot extends TimedRobot {
 		chooser.addOption("Low Rocket Ball Hole", new ElevateCmd(m_elevator, Height.LOW_BALL));
 		chooser.addOption("Middle Rocket Ball Hole", new ElevateCmd(m_elevator, Height.MIDDLE_BALL));
 		chooser.addOption("High Rocket Ball Hole", new ElevateCmd(m_elevator, Height.HIGH_BALL));
-
-		elevatorCommand = chooser.getSelected();
 	}
 
 	@Override
@@ -57,7 +55,9 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
-		elevatorCommand.cancel();
+		if (elevatorCommand != null) {
+			elevatorCommand.cancel();
+		}
 		m_elevator.resetPid();
 	}
 
@@ -84,8 +84,8 @@ public class Robot extends TimedRobot {
 		if (!tempCommand.equals(elevatorCommand)) {
 			elevatorCommand = tempCommand;
 			elevatorCommand.start();
-			Scheduler.getInstance().run();
 		}
+		Scheduler.getInstance().run();
 	}
 
 	@Override

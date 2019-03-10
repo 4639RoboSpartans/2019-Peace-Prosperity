@@ -11,20 +11,16 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.subsystems.DriveTrainSys;
 
-import com.kauailabs.navx.frc.AHRS;
-
 public class DriveCmd extends Command {
 	private final DriveTrainSys m_drive;
 	private final OI m_oi;
-	private final AHRS navx;
 
 	// toggle for field oriented driving
 	private static final boolean fieldOriented = false;
 
-	public DriveCmd(DriveTrainSys m_drive, OI m_oi, AHRS navx) {
+	public DriveCmd(DriveTrainSys m_drive, OI m_oi) {
 		this.m_drive = m_drive;
 		this.m_oi = m_oi;
-		this.navx = navx;
 		requires(m_drive);
 	}
 
