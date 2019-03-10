@@ -13,7 +13,7 @@ import frc.robot.subsystems.DriveTrainSys;
 
 import com.kauailabs.navx.frc.AHRS;
 
-public class DriveCommand extends Command {
+public class DriveCmd extends Command {
 	private final DriveTrainSys m_drive;
 	private final OI m_oi;
 	private final AHRS navx;
@@ -21,7 +21,7 @@ public class DriveCommand extends Command {
 	// toggle for field oriented driving
 	private static final boolean fieldOriented = false;
 
-	public DriveCommand(DriveTrainSys m_drive, OI m_oi, AHRS navx) {
+	public DriveCmd(DriveTrainSys m_drive, OI m_oi, AHRS navx) {
 		this.m_drive = m_drive;
 		this.m_oi = m_oi;
 		this.navx = navx;
@@ -34,7 +34,11 @@ public class DriveCommand extends Command {
 
 	@Override
 	protected void execute() {
-		m_drive.drive(m_oi.getLeftX(0), m_oi.getLeftY(0), m_oi.getRightX(0), (fieldOriented ? navx.getYaw() : 0.0));
+		if (fieldOriented) {
+			m_drive.driveField(m_oi.getLeftX(0), m_oi.getLeftY(0), m_oi.getRightX(0));
+		} else {
+			m_drive.drive(m_oi.getLeftX(0), m_oi.getLeftY(0), m_oi.getRightX(0));
+		}
 	}
 
 	@Override

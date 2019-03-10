@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.enums.Height;
 import frc.robot.subsystems.ElevatorSys;
 
-public class ElevateCommand extends InstantCommand {
+public class ElevateCmd extends InstantCommand {
 	private final ElevatorSys m_elevator;
 	private final Height height;
 
-	public ElevateCommand(ElevatorSys es, Height height) {
+	public ElevateCmd(ElevatorSys es, Height height) {
 		this.m_elevator = es;
 		requires(m_elevator);
 		this.height = height;
@@ -28,10 +28,10 @@ public class ElevateCommand extends InstantCommand {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof ElevateCommand)) {
+		if (!(o instanceof ElevateCmd)) {
 			return false;
 		}
-		ElevateCommand e = (ElevateCommand) o;
+		ElevateCmd e = (ElevateCmd) o;
 		return height == e.height;
 	}
 }

@@ -6,8 +6,9 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 
 import frc.robot.enums.Height;
 
@@ -17,19 +18,27 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 //use that diameter to find the arc length
 //18 tooth from vex
 public class ElevatorSys extends InjectedSubsystem {
-	private static final int motorPort = 5;
-	private static final int encChannel0 = 0;
-	private static final int encChannel1 = 1;
+	private static final int motorPort = 0;
 	private static final double P = 0, I = 0, D = 0;
 
 	private final WPI_TalonSRX motor;
-	private final Encoder enc;
 	private final PIDController pid;
 
 	public ElevatorSys() {
 		this.motor = new WPI_TalonSRX(motorPort);
-		this.enc = new Encoder(encChannel0, encChannel1, false, Encoder.EncodingType.k4X);
-		this.pid = new PIDController(P, I, D, enc, motor);
+		this.pid = new PIDController(P, I, D, new PIDSource() {
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+			}
+			@Override
+			public double pidGet() {
+				return motor.getSensorCollection().getQuadraturePosition();
+			}
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return PIDSourceType.kRate;
+			}
+		}, motor);
 		this.pid.setOutputRange(-1, 1);
 		this.pid.enable();
 	}
@@ -44,9 +53,5 @@ public class ElevatorSys extends InjectedSubsystem {
 
 	public void resetPid() {
 		pid.reset();
-	}
-
-	public Encoder getEncoder() {
-		return enc;
 	}
 }

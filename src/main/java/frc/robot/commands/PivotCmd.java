@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.PIDCommand;
 import frc.robot.enums.Pivot;
 import frc.robot.subsystems.PivotSys;
 
-public class PivotCommand extends PIDCommand {
+public class PivotCmd extends PIDCommand {
 	private static final double P = 0, I = 0, D = 0;
 
 	private final PivotSys m_pivot;
 	private final Pivot pivot;
 
-	public PivotCommand(PivotSys m_pivot, Pivot pivot) {
+	public PivotCmd(PivotSys m_pivot, Pivot pivot) {
 		super(P, I, D, m_pivot);
 		this.m_pivot = m_pivot;
 		requires(m_pivot);

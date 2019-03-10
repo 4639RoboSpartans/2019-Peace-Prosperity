@@ -12,9 +12,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
  * Add your docs here.
  */
 public class BallIntakeSys extends InjectedSubsystem {
-	private static final int intakeRight = 0;
-	private static final int intakeLeft = 1;
-	private static final int intakeTop = 2;
+	private static final int leftPort = 6;
+	private static final int rightPort = 4;
+	private static final int topPort = 3;
 	private static final double topMotorFactor = 0.8;
 
 	private final WPI_TalonSRX intakeLeftMotor;
@@ -22,9 +22,9 @@ public class BallIntakeSys extends InjectedSubsystem {
 	private final WPI_TalonSRX intakeTopMotor;
 
 	public BallIntakeSys() {
-		this.intakeLeftMotor = new WPI_TalonSRX(intakeLeft);
-		this.intakeRightMotor = new WPI_TalonSRX(intakeRight);
-		this.intakeTopMotor = new WPI_TalonSRX(intakeTop);
+		this.intakeLeftMotor = new WPI_TalonSRX(leftPort);
+		this.intakeRightMotor = new WPI_TalonSRX(rightPort);
+		this.intakeTopMotor = new WPI_TalonSRX(topPort);
 		this.intakeRightMotor.setInverted(true);
 		this.intakeTopMotor.setInverted(true);
 	}

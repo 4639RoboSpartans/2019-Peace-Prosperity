@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 public class PivotSys extends InjectedSubsystem {
+	private static final int motorPort = 0;
+
 	private WPI_VictorSPX motor;
 	private AnalogPotentiometer pot;
-
-	private static final int motorPort = 0;
 
 	public PivotSys() {
 		motor = new WPI_VictorSPX(motorPort);

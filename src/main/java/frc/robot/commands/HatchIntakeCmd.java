@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.enums.Hatch;
 import frc.robot.subsystems.HatchIntakeSys;
 
-public class HatchIntakeCommand extends InstantCommand {
+public class HatchIntakeCmd extends InstantCommand {
 	private final HatchIntakeSys m_intake;
 	private final Hatch hatch;
 
-	public HatchIntakeCommand(HatchIntakeSys m_intake, Hatch hatch) {
+	public HatchIntakeCmd(HatchIntakeSys m_intake, Hatch hatch) {
 		this.m_intake = m_intake;
 		requires(m_intake);
 		this.hatch = hatch;
@@ -23,10 +23,10 @@ public class HatchIntakeCommand extends InstantCommand {
 
 	@Override
 	protected void initialize() {
+		m_intake.setServo(hatch);
 	}
 
 	@Override
 	protected void execute() {
-		m_intake.setServo(hatch.getAmount());
 	}
 }

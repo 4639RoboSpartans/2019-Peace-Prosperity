@@ -8,8 +8,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Servo;
 
+import frc.robot.enums.Hatch;
+
 public class HatchIntakeSys extends InjectedSubsystem {
-	private static final int servoPort = 1;
+	private static final int servoPort = 0;
 
 	private final Servo servo;
 
@@ -17,8 +19,8 @@ public class HatchIntakeSys extends InjectedSubsystem {
 		servo = new Servo(servoPort);
 	}
 
-	public void setServo(double value) {
-		servo.set(value);
+	public void setServo(Hatch hatch) {
+		servo.set(hatch.getAmount());
 	}
 
 	public double getServo() {
