@@ -6,26 +6,29 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.Servo;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 public class PivotSys extends InjectedSubsystem {
 	private static final int motorPort = 0;
+	private static final int servoPort = 1;
 
 	private WPI_VictorSPX motor;
-	private AnalogPotentiometer pot;
+	private Servo servo;
+	// private AnalogPotentiometer pot;
 
 	public PivotSys() {
-		motor = new WPI_VictorSPX(motorPort);
-		pot = new AnalogPotentiometer(1, 360, 30);
+		this.motor = new WPI_VictorSPX(motorPort);
+		this.servo = new Servo(servoPort);
+		// pot = new AnalogPotentiometer(1, 360, 30);
 	}
 
 	public void setMotor(double speed) {
 		motor.set(speed);
 	}
 
-	public AnalogPotentiometer getPotentiometer() {
-		return pot;
-	}
+	// public AnalogPotentiometer getPotentiometer() {
+	// return pot;
+	// }
 }

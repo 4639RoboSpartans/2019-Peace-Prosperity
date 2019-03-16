@@ -7,28 +7,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
+import frc.robot.subsystems.ElevatorSys;
 
-import frc.robot.subsystems.BallIntakeSys;
+public class ManualElevateCmd extends Command {
+	private final ElevatorSys m_elevator;
+	private final OI m_oi;
 
-public class BallIntakeCmd extends Command {
-
-	private final BallIntakeSys m_intake;
-	private final boolean intake;
-
-	public BallIntakeCmd(BallIntakeSys m_intake, boolean intake) {
-		this.m_intake = m_intake;
-		this.intake = intake;
-		requires(m_intake);
+	public ManualElevateCmd(ElevatorSys m_elevator, OI m_oi) {
+		this.m_elevator = m_elevator;
+		requires(m_elevator);
+		this.m_oi = m_oi;
 	}
 
 	@Override
 	protected void initialize() {
-
 	}
 
 	@Override
 	protected void execute() {
-		m_intake.intake(intake ? 0.7 : -1);
+		m_elevator.manual(m_oi.getLeftY(1));
 	}
 
 	@Override
@@ -38,7 +36,6 @@ public class BallIntakeCmd extends Command {
 
 	@Override
 	protected void end() {
-		m_intake.stopIntake();
 	}
 
 	@Override

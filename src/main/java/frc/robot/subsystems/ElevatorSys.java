@@ -6,52 +6,52 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDSource;
-import edu.wpi.first.wpilibj.PIDSourceType;
-
 import frc.robot.enums.Height;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-//pitch diam 1.432 inches
-//use that diameter to find the arc length
-//18 tooth from vex
 public class ElevatorSys extends InjectedSubsystem {
-	private static final int motorPort = 0;
-	private static final double P = 0, I = 0, D = 0;
+	private static final int motorPort = 1;
+	private static final double vStatic = 112, P = 0.2, I = 0.01, D = 0;
 
 	private final WPI_TalonSRX motor;
-	private final PIDController pid;
 
 	public ElevatorSys() {
 		this.motor = new WPI_TalonSRX(motorPort);
-		this.pid = new PIDController(P, I, D, new PIDSource() {
-			@Override
-			public void setPIDSourceType(PIDSourceType pidSource) {
-			}
-			@Override
-			public double pidGet() {
-				return motor.getSensorCollection().getQuadraturePosition();
-			}
-			@Override
-			public PIDSourceType getPIDSourceType() {
-				return PIDSourceType.kRate;
-			}
-		}, motor);
-		this.pid.setOutputRange(-1, 1);
-		this.pid.enable();
+		motor.configFactoryDefault();
+
+		motor.setNeutralMode(NeutralMode.Brake);
+		motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		motor.setSensorPhase(true);
+
+		motor.configPeakOutputForward(0.8);
+		motor.configPeakOutputReverse(-0.8);
+		motor.configNominalOutputForward(0);
+		motor.configNominalOutputReverse(0);
+
+		motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+		motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+
+		motor.selectProfileSlot(0, 0);
+		motor.config_kP(0, P);
+		motor.config_kI(0, I);
+		motor.config_kD(0, D);
+
+		// motor.configMotionAcceleration(sensorUnitsPer100msPerSec);
+		// motor.configMotionCruiseVelocity(sensorUnitsPer100ms);
 	}
 
 	public void move(Height height) {
-		pid.setSetpoint(height.getHeight());
+		motor.set(ControlMode.MotionMagic, height.getHeight(), DemandType.ArbitraryFeedForward, vStatic);
 	}
-
-	public void move(double speed) {
-		motor.set(speed);
-	}
-
-	public void resetPid() {
-		pid.reset();
+	
+	public void manual(double num) {
+		motor.set(ControlMode.PercentOutput, num);
 	}
 }

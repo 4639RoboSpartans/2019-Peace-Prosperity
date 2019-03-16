@@ -13,20 +13,14 @@ import frc.robot.subsystems.HatchIntakeSys;
 
 public class HatchIntakeCmd extends InstantCommand {
 	private final HatchIntakeSys m_intake;
-	private final Hatch hatch;
 
-	public HatchIntakeCmd(HatchIntakeSys m_intake, Hatch hatch) {
+	public HatchIntakeCmd(HatchIntakeSys m_intake) {
 		this.m_intake = m_intake;
 		requires(m_intake);
-		this.hatch = hatch;
 	}
 
 	@Override
-	protected void initialize() {
-		m_intake.setServo(hatch);
-	}
-
-	@Override
-	protected void execute() {
+	public synchronized void start() {
+		m_intake.setServo(Hatch.invert(m_intake.getCurState()));
 	}
 }

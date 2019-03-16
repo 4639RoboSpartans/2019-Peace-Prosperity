@@ -11,20 +11,21 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class OI {
-	private Joystick[] sticks;
-	private Button[][] buttons;
+	private final Joystick[] sticks;
+	private final Button[][] buttons;
 
 	// port values of the axes/buttons
-	private static int leftJoystickX = 0, leftJoystickY = 1, leftTrigger = 2, rightTrigger = 3, rightJoystickX = 4,
-			rightJoystickY = 5;
+	private static final int leftJoystickX = 0, leftJoystickY = 1, leftTrigger = 2, rightTrigger = 3,
+			rightJoystickX = 4, rightJoystickY = 5;
 
 	private static double deadzoneValue = 0.01;
 
 	public OI() {
 		buttons = new JoystickButton[6][8];
-		for (int i = 0; i < 6; i++) {
+		sticks = new Joystick[2];
+		for (int i = 0; i < sticks.length; i++) {
 			sticks[i] = new Joystick(i);
-			for (int j = 0; j < 8; j++) {
+			for (int j = 0; j < buttons.length; j++) {
 				buttons[i][j] = new JoystickButton(sticks[i], j);
 			}
 		}

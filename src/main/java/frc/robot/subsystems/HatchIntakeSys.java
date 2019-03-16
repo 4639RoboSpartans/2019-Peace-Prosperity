@@ -14,20 +14,23 @@ public class HatchIntakeSys extends InjectedSubsystem {
 	private static final int servoPort = 0;
 
 	private final Servo servo;
+	private Hatch curState;
 
 	public HatchIntakeSys() {
 		servo = new Servo(servoPort);
+		curState = Hatch.SIDE;
 	}
 
 	public void setServo(Hatch hatch) {
 		servo.set(hatch.getAmount());
-	}
-
-	public double getServo() {
-		return servo.get();
+		curState = hatch;
 	}
 
 	public void stop() {
 		servo.stopMotor();
+	}
+
+	public Hatch getCurState() {
+		return curState;
 	}
 }
