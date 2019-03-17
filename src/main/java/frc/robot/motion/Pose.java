@@ -41,4 +41,12 @@ public class Pose {
 	public Pose translate(double x, double y, double angle) {
 		return new Pose(this.x + x, this.y + y, this.angle + angle);
 	}
+
+	public Pose translate(double x, double y) {
+		return translate(x, y, 0);
+	}
+
+	public Pose withAngle(double angle) {
+		return new Pose(this.x, this.y, angle);
+	}
 }

@@ -4,18 +4,36 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package frc.robot.enums;
+package frc.robot.commands;
 
-public enum Pivot {
-	UP(0), DOWN(0.5);
+import edu.wpi.first.wpilibj.command.Command;
 
-	private final double amount;
+public class WaitCmd extends Command {
 
-	private Pivot(double amount) {
-		this.amount = amount;
+	public WaitCmd(double seconds) {
+		setTimeout(seconds);
 	}
 
-	public double getAmount() {
-		return amount;
+	@Override
+	protected void initialize() {
+
+	}
+
+	@Override
+	protected void execute() {
+	}
+
+	@Override
+	protected boolean isFinished() {
+		return isTimedOut();
+	}
+
+	@Override
+	protected void end() {
+	}
+
+	@Override
+	protected void interrupted() {
+		end();
 	}
 }

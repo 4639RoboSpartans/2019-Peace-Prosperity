@@ -8,17 +8,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
+import frc.robot.OI;
 import frc.robot.subsystems.BallIntakeSys;
 
 public class BallIntakeCmd extends Command {
 
 	private final BallIntakeSys m_intake;
-	private final boolean intake;
+	private final OI m_oi;
 
-	public BallIntakeCmd(BallIntakeSys m_intake, boolean intake) {
+	public BallIntakeCmd(BallIntakeSys m_intake, OI m_oi) {
 		this.m_intake = m_intake;
-		this.intake = intake;
 		requires(m_intake);
+		this.m_oi = m_oi;
 	}
 
 	@Override
@@ -28,7 +29,19 @@ public class BallIntakeCmd extends Command {
 
 	@Override
 	protected void execute() {
-		m_intake.intake(intake ? 0.7 : -1);
+		double left = m_oi.getLeftTrigger(1);
+		double right = m_oi.getRightTrigger(1);
+		if (left != 0 && right != 0) {
+			m_intake.stop();
+		} else {
+			if (left > 0) {
+				m_intake.intake(0.4);
+			} else if (right > 0) {
+				m_intake.intake(-0.4);
+			} else {
+				m_intake.stop();
+			}
+		}
 	}
 
 	@Override
@@ -38,7 +51,7 @@ public class BallIntakeCmd extends Command {
 
 	@Override
 	protected void end() {
-		m_intake.stopIntake();
+		m_intake.stop();
 	}
 
 	@Override

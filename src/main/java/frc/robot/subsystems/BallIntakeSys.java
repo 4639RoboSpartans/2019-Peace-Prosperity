@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 /**
@@ -18,27 +17,27 @@ public class BallIntakeSys extends InjectedSubsystem {
 	private static final int topPort = 11;
 	private static final double topMotorFactor = 0.8;
 
-	private final WPI_VictorSPX intakeLeftMotor;
-	private final WPI_VictorSPX intakeRightMotor;
-	private final WPI_VictorSPX intakeTopMotor;
+	private final WPI_VictorSPX leftMotor;
+	private final WPI_VictorSPX rightMotor;
+	private final WPI_VictorSPX topMotor;
 
 	public BallIntakeSys() {
-		this.intakeLeftMotor = new WPI_VictorSPX(leftPort);
-		this.intakeRightMotor = new WPI_VictorSPX(rightPort);
-		this.intakeTopMotor = new WPI_VictorSPX(topPort);
-		this.intakeRightMotor.setInverted(true);
-		this.intakeTopMotor.setInverted(true);
+		this.leftMotor = new WPI_VictorSPX(leftPort);
+		this.rightMotor = new WPI_VictorSPX(rightPort);
+		this.topMotor = new WPI_VictorSPX(topPort);
+		this.rightMotor.setInverted(true);
+		this.topMotor.setInverted(true);
 	}
 
 	public void intake(double intakeSpeed) {
-		intakeLeftMotor.set(intakeSpeed);
-		intakeRightMotor.set(intakeSpeed);
-		intakeTopMotor.set(intakeSpeed * topMotorFactor);
+		leftMotor.set(intakeSpeed);
+		rightMotor.set(intakeSpeed);
+		topMotor.set(intakeSpeed * topMotorFactor);
 	}
 
-	public void stopIntake() {
-		intakeLeftMotor.stopMotor();
-		intakeRightMotor.stopMotor();
-		intakeTopMotor.stopMotor();
+	public void stop() {
+		leftMotor.stopMotor();
+		rightMotor.stopMotor();
+		topMotor.stopMotor();
 	}
 }

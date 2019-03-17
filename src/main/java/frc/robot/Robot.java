@@ -6,9 +6,11 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.commands.BallIntakeCmd;
 import frc.robot.commands.DriveCmd;
@@ -43,11 +45,12 @@ public class Robot extends TimedRobot {
 		m_oi = new OI();
 		m_drive.setDefaultCommand(new DriveCmd(m_drive, m_oi));
 		m_elevator.setDefaultCommand(new ManualElevateCmd(m_elevator, m_oi));
+		m_ballIntake.setDefaultCommand(new BallIntakeCmd(m_ballIntake, m_oi));
 
-		m_oi.getButton(1, 2).whileActive(new BallIntakeCmd(m_ballIntake, true));
-		m_oi.getButton(1, 3).whileActive(new BallIntakeCmd(m_ballIntake, false));
+		// m_oi.getButton(1, 3).whenPressed(new ElevateCmd(m_elevator, Height.DEFAULT));
 
-		m_oi.getButton(1, 1).whenPressed(new HatchIntakeCmd(m_hatchIntake));
+		m_oi.getButton(1, 1).whenPressed(new HatchIntakeCmd(m_hatchIntake, Hatch.SIDE));
+		m_oi.getButton(1, 4).whenPressed(new HatchIntakeCmd(m_hatchIntake, Hatch.UP));
 
 		chooser = new SendableChooser<>();
 		chooser.setDefaultOption("Default Height", new ElevateCmd(m_elevator, Height.DEFAULT));
@@ -57,10 +60,20 @@ public class Robot extends TimedRobot {
 		chooser.addOption("Low Rocket Ball Hole", new ElevateCmd(m_elevator, Height.LOW_BALL));
 		chooser.addOption("Middle Rocket Ball Hole", new ElevateCmd(m_elevator, Height.MIDDLE_BALL));
 		chooser.addOption("High Rocket Ball Hole", new ElevateCmd(m_elevator, Height.HIGH_BALL));
+		SmartDashboard.putData(chooser);
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	@Override
 	public void robotPeriodic() {
+		// ElevateCmd tempCommand = chooser.getSelected();
+		// if (!tempCommand.equals(elevatorCommand)) {
+		// if(tempCommand != null) {
+		// tempCommand.cancel();
+		// }
+		// elevatorCommand = tempCommand;
+		// elevatorCommand.start();
+		// }
 	}
 
 	@Override
@@ -90,11 +103,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		// ElevateCmd tempCommand = chooser.getSelected();
-		// if (!tempCommand.equals(elevatorCommand)) {
-		// 	elevatorCommand = tempCommand;
-		// 	elevatorCommand.start();
-		// }
 		Scheduler.getInstance().run();
 	}
 

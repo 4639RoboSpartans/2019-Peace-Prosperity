@@ -25,6 +25,5 @@ public abstract class InjectedSubsystem extends Subsystem {
 
 	@Override
 	protected final void initDefaultCommand() {
-
 	}
 }

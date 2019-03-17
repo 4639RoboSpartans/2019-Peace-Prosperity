@@ -7,7 +7,7 @@
 package frc.robot.enums;
 
 public enum Hatch {
-	UP(0.1), SIDE(0.42);
+	UP(0.1), SIDE(0.45);
 
 	private final double amount;
 	private Hatch(double amount) {
@@ -16,13 +16,5 @@ public enum Hatch {
 
 	public double getAmount() {
 		return amount;
-	}
-
-	public static Hatch invert(Hatch h) {
-		if (h == UP) {
-			return SIDE;
-		} else {
-			return UP;
-		}
 	}
 }

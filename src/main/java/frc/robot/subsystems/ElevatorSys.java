@@ -11,14 +11,16 @@ import frc.robot.enums.Height;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class ElevatorSys extends InjectedSubsystem {
 	private static final int motorPort = 1;
-	private static final double vStatic = 112, P = 0.2, I = 0.01, D = 0;
+	private static final double vStatic = 112, P = 0.125, I = 0.05, D = 0.02;
 
 	private final WPI_TalonSRX motor;
 
@@ -28,12 +30,17 @@ public class ElevatorSys extends InjectedSubsystem {
 
 		motor.setNeutralMode(NeutralMode.Brake);
 		motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		motor.setSensorPhase(true);
+		motor.configClearPositionOnLimitR(true, 0);
+		motor.setSensorPhase(false);
+		motor.setInverted(InvertType.InvertMotorOutput);
 
-		motor.configPeakOutputForward(0.8);
-		motor.configPeakOutputReverse(-0.8);
+		motor.configPeakOutputForward(1);
+		motor.configPeakOutputReverse(-1);
 		motor.configNominalOutputForward(0);
 		motor.configNominalOutputReverse(0);
+
+		motor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10);
+		motor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10);
 
 		motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 		motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
@@ -43,15 +50,20 @@ public class ElevatorSys extends InjectedSubsystem {
 		motor.config_kI(0, I);
 		motor.config_kD(0, D);
 
-		// motor.configMotionAcceleration(sensorUnitsPer100msPerSec);
-		// motor.configMotionCruiseVelocity(sensorUnitsPer100ms);
+		motor.configMotionAcceleration(2000);
+		motor.configMotionCruiseVelocity(4000);
 	}
 
 	public void move(Height height) {
 		motor.set(ControlMode.MotionMagic, height.getHeight(), DemandType.ArbitraryFeedForward, vStatic);
 	}
-	
+
 	public void manual(double num) {
 		motor.set(ControlMode.PercentOutput, num);
+	}
+
+	public void a() {
+		System.out.println(motor.getSelectedSensorPosition(0));
+		System.out.println(motor.getSelectedSensorVelocity(0));
 	}
 }
