@@ -17,13 +17,12 @@ import frc.robot.commands.DriveCmd;
 import frc.robot.commands.ElevateCmd;
 import frc.robot.commands.HatchIntakeCmd;
 import frc.robot.commands.ManualElevateCmd;
-import frc.robot.enums.Hatch;
-import frc.robot.enums.Height;
+import frc.robot.util.enums.Hatch;
+import frc.robot.util.enums.Height;
 import frc.robot.subsystems.BallIntakeSys;
 import frc.robot.subsystems.DriveTrainSys;
 import frc.robot.subsystems.ElevatorSys;
 import frc.robot.subsystems.HatchIntakeSys;
-import frc.robot.subsystems.PivotSys;
 
 public class Robot extends TimedRobot {
 	private OI m_oi;
@@ -33,7 +32,6 @@ public class Robot extends TimedRobot {
 	private ElevatorSys m_elevator;
 	private BallIntakeSys m_ballIntake;
 	private HatchIntakeSys m_hatchIntake;
-	private PivotSys m_pivot;
 
 	@Override
 	public void robotInit() {
@@ -41,7 +39,6 @@ public class Robot extends TimedRobot {
 		m_hatchIntake = new HatchIntakeSys();
 		m_drive = new DriveTrainSys();
 		m_elevator = new ElevatorSys();
-		m_pivot = new PivotSys();
 		m_oi = new OI();
 		m_drive.setDefaultCommand(new DriveCmd(m_drive, m_oi));
 		m_elevator.setDefaultCommand(new ManualElevateCmd(m_elevator, m_oi));

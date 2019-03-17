@@ -37,6 +37,10 @@ public class VisionData {
 		return time;
 	}
 
+	public VisionData withAngle(double angle) {
+		return new VisionData(angle, distance, time);
+	}
+
 	static class Derserializer implements JsonDeserializer<VisionData> {
 		@Override
 		public VisionData deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)

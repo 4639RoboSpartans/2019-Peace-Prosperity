@@ -8,8 +8,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-import frc.robot.enums.Hatch;
 import frc.robot.subsystems.HatchIntakeSys;
+import frc.robot.util.enums.Hatch;
 
 public class HatchIntakeCmd extends InstantCommand {
 	private final HatchIntakeSys m_intake;

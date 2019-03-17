@@ -8,8 +8,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
-import frc.robot.enums.Height;
 import frc.robot.subsystems.ElevatorSys;
+import frc.robot.util.enums.Height;
 
 public class ElevateCmd extends InstantCommand {
 	private final ElevatorSys m_elevator;

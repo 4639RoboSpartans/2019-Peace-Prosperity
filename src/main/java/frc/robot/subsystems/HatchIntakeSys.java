@@ -8,7 +8,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Servo;
 
-import frc.robot.enums.Hatch;
+import frc.robot.util.enums.Hatch;
 
 public class HatchIntakeSys extends InjectedSubsystem {
 	private static final int servoPort = 0;

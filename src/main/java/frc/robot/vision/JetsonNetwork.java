@@ -13,17 +13,21 @@ import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
+import frc.robot.util.MovingAverageFilter;
+
 public class JetsonNetwork implements AutoCloseable, Runnable {
 
 	private final ZContext zcontext;
 	private final ZMQ.Socket socket;
 	private final Gson gson;
+	private final MovingAverageFilter filter;
 
 	private volatile VisionData data;
 	private long timeDiff;
 
 	public JetsonNetwork(String zmqIP) {
 		gson = new GsonBuilder().registerTypeAdapter(VisionData.class, new VisionData.Derserializer()).create();
+		filter = new MovingAverageFilter(5);
 		zcontext = new ZContext();
 		socket = zcontext.createSocket(SocketType.REQ);
 		socket.connect(zmqIP);
@@ -56,6 +60,8 @@ public class JetsonNetwork implements AutoCloseable, Runnable {
 		}
 		socket.send("data");
 		String json = socket.recvStr();
-		data = gson.fromJson(json, VisionData.class);
+		VisionData temp = gson.fromJson(json, VisionData.class);
+		double angle = filter.next(temp.getAngle());
+		data = temp.withAngle(angle);
 	}
 }

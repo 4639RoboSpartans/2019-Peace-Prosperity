@@ -6,8 +6,6 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
-import frc.robot.enums.Height;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -17,6 +15,8 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import frc.robot.util.enums.Height;
 
 public class ElevatorSys extends InjectedSubsystem {
 	private static final int motorPort = 1;
@@ -50,8 +50,8 @@ public class ElevatorSys extends InjectedSubsystem {
 		motor.config_kI(0, I);
 		motor.config_kD(0, D);
 
-		motor.configMotionAcceleration(2000);
-		motor.configMotionCruiseVelocity(4000);
+		motor.configMotionAcceleration(1500);
+		motor.configMotionCruiseVelocity(3000);
 	}
 
 	public void move(Height height) {

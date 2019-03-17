@@ -4,7 +4,7 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package frc.robot.enums;
+package frc.robot.util.enums;
 
 public enum Hatch {
 	UP(0.1), SIDE(0.45);
