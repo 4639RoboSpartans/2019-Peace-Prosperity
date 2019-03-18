@@ -25,13 +25,4 @@ public class ElevateCmd extends InstantCommand {
 	protected void initialize() {
 		m_elevator.move(height);
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof ElevateCmd)) {
-			return false;
-		}
-		ElevateCmd e = (ElevateCmd) o;
-		return height == e.height;
-	}
 }
