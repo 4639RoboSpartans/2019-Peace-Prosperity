@@ -7,7 +7,7 @@
 package frc.robot.util.enums;
 
 public enum Height {
-	LOW_HATCH(8192), MIDDLE_HATCH(1), HIGH_HATCH(2), LOW_BALL(0), MIDDLE_BALL(1), HIGH_BALL(2);
+	LOW_HATCH(1250), MIDDLE_HATCH(10085), HIGH_HATCH(18383), LOW_BALL(6323), MIDDLE_BALL(15004), HIGH_BALL(21700);
 
 	private final double height;
 

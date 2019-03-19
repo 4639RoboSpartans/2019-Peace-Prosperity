@@ -9,7 +9,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class PivotSys extends InjectedSubsystem {
-	private static final int motorPort = 7;
+  private static final int motorPort = 7;
+  
+  private static final double vStatic = 0.125, P = 0.125, I = 0.05, D = 0.02;
 
 	private final WPI_TalonSRX motor;
 

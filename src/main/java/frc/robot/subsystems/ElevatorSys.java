@@ -20,7 +20,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class ElevatorSys extends InjectedSubsystem {
 	private static final int motorPort = 1;
-	private static final double vStatic = 112, P = 0.125, I = 0.05, D = 0.02;
+	private static final double vStatic = 130, P = 0.1, I = 0.05, D = 0;
 
 	private final WPI_TalonSRX motor;
 
@@ -50,12 +50,14 @@ public class ElevatorSys extends InjectedSubsystem {
 		motor.config_kI(0, I);
 		motor.config_kD(0, D);
 
-		motor.configMotionAcceleration(1500);
-		motor.configMotionCruiseVelocity(3000);
+		motor.configMotionAcceleration(3000);
+		motor.configMotionCruiseVelocity(4000);
 	}
 
 	public void move(Height height) {
-		motor.set(ControlMode.MotionMagic, height.getHeight(), DemandType.ArbitraryFeedForward, vStatic);
+		motor.set(ControlMode.MotionMagic, 8000, DemandType.ArbitraryFeedForward, vStatic);
+
+		// motor.set(ControlMode.MotionMagic, height.getHeight(), DemandType.ArbitraryFeedForward, vStatic);
 	}
 
 	public void manual(double num) {
@@ -65,5 +67,6 @@ public class ElevatorSys extends InjectedSubsystem {
 	public void a() {
 		System.out.println(motor.getSelectedSensorPosition(0));
 		System.out.println(motor.getSelectedSensorVelocity(0));
+		System.out.println(motor.getControlMode());
 	}
 }

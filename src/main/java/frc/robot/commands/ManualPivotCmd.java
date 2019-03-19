@@ -27,7 +27,7 @@ public class ManualPivotCmd extends Command {
 
 	@Override
 	protected void execute() {
-		m_pivot.set(m_oi.getRightY(1));
+		m_pivot.set(m_oi.getRightY(1) * 0.60);
 	}
 
 	@Override

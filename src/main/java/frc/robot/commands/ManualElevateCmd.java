@@ -27,7 +27,7 @@ public class ManualElevateCmd extends Command {
 
 	@Override
 	protected void execute() {
-		m_elevator.manual(m_oi.getLeftY(1));
+		m_elevator.manual(m_oi.getLeftY(1) * 0.60);
 	}
 
 	@Override
