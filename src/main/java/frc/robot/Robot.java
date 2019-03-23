@@ -45,7 +45,7 @@ public class Robot extends TimedRobot {
 		m_drive.setDefaultCommand(new DriveCmd(m_drive, m_oi));
 		m_ballIntake.setDefaultCommand(new BallIntakeCmd(m_ballIntake, m_oi));
 		m_pivot.setDefaultCommand(new ManualPivotCmd(m_pivot, m_oi));
-		m_elevator.setDefaultCommand(new ManualElevateCmd(m_elevator, m_oi));
+		// m_elevator.setDefaultCommand(new ManualElevateCmd(m_elevator, m_oi));
 
 		m_oi.getButton(1, 1).whenPressed(new HatchIntakeCmd(m_hatchIntake, Hatch.SIDE));
 		m_oi.getButton(1, 4).whenPressed(new HatchIntakeCmd(m_hatchIntake, Hatch.UP));
