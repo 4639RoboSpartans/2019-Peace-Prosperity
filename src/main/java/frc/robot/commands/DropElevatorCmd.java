@@ -4,17 +4,22 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package frc.robot.util.enums;
+package frc.robot.commands;
 
-public enum Hatch {
-	UP(0), SIDE(0.37);
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
-	private final double amount;
-	private Hatch(double amount) {
-		this.amount = amount;
+import frc.robot.subsystems.ElevatorSys;
+
+public class DropElevatorCmd extends InstantCommand {
+	private final ElevatorSys m_elevator;
+
+	public DropElevatorCmd(ElevatorSys es) {
+		this.m_elevator = es;
+		requires(m_elevator);
 	}
 
-	public double getAmount() {
-		return amount;
+	@Override
+	protected void initialize() {
+		m_elevator.drop();
 	}
 }

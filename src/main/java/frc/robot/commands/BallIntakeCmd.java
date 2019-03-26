@@ -35,9 +35,9 @@ public class BallIntakeCmd extends Command {
 			m_intake.stop();
 		} else {
 			if (left > 0) {
-				m_intake.intake(0.4);
+				m_intake.intake(0.5);
 			} else if (right > 0) {
-				m_intake.intake(-0.8);
+				m_intake.intake(-0.5);
 			} else {
 				m_intake.stop();
 			}

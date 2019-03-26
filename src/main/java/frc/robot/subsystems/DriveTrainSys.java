@@ -8,6 +8,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import frc.robot.motion.MotorStore;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -28,12 +29,21 @@ public class DriveTrainSys extends InjectedSubsystem {
 	private final MecanumDrive drive;
 	private final AHRS navx;
 
-	public DriveTrainSys() {
+	public DriveTrainSys(MotorStore ms) {
 		frontLeft = new WPI_TalonSRX(frontLeftPort);
 		frontRight = new WPI_VictorSPX(frontRightPort);
 		rearLeft = new WPI_TalonSRX(rearLeftPort);
 		rearRight = new WPI_TalonSRX(rearRightPort);
 		navx = new AHRS(Port.kMXP);
+
+		ms.addMotor(frontLeftPort, frontLeft);
+		ms.addMotor(rearLeftPort, rearLeft);
+		ms.addMotor(rearRightPort, rearRight);
+
+		frontLeft.configFactoryDefault();
+		frontRight.configFactoryDefault();
+		rearLeft.configFactoryDefault();
+		rearRight.configFactoryDefault();
 
 		frontLeft.setInverted(InvertType.InvertMotorOutput);
 		rearLeft.setInverted(InvertType.InvertMotorOutput);
@@ -41,6 +51,10 @@ public class DriveTrainSys extends InjectedSubsystem {
 		rearRight.setInverted(InvertType.InvertMotorOutput);
 
 		drive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+	}
+
+	public AHRS getAhrs() {
+		return navx;
 	}
 
 	public void driveField(double xSpeed, double ySpeed, double zRotation) {

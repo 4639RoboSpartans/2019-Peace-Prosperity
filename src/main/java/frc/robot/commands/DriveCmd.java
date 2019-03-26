@@ -12,11 +12,10 @@ import frc.robot.OI;
 import frc.robot.subsystems.DriveTrainSys;
 
 public class DriveCmd extends Command {
+	private static final boolean fieldOriented = false;
+
 	private final DriveTrainSys m_drive;
 	private final OI m_oi;
-
-	// toggle for field oriented driving
-	private static final boolean fieldOriented = false;
 
 	public DriveCmd(DriveTrainSys m_drive, OI m_oi) {
 		this.m_drive = m_drive;
@@ -30,10 +29,20 @@ public class DriveCmd extends Command {
 
 	@Override
 	protected void execute() {
+		double leftX = m_oi.getLeftX(0);
+		double leftY = m_oi.getLeftY(0);
+		double rightX = m_oi.getRightX(0);
+
+		if (m_oi.getRightTrigger(0) > 0) {
+			leftX *= 0.4;
+			leftY *= 0.4;
+			rightX *= 0.4;
+		}
+
 		if (fieldOriented) {
-			m_drive.driveField(m_oi.getLeftX(0), m_oi.getLeftY(0), m_oi.getRightX(0));
+			m_drive.driveField(leftX, leftY, rightX);
 		} else {
-			m_drive.drive(m_oi.getLeftX(0), m_oi.getLeftY(0), m_oi.getRightX(0));
+			m_drive.drive(leftX, leftY, rightX);
 		}
 	}
 

@@ -22,11 +22,16 @@ public class BallIntakeSys extends InjectedSubsystem {
 	private final WPI_VictorSPX topMotor;
 
 	public BallIntakeSys() {
-		this.leftMotor = new WPI_VictorSPX(leftPort);
-		this.rightMotor = new WPI_VictorSPX(rightPort);
-		this.topMotor = new WPI_VictorSPX(topPort);
-		this.rightMotor.setInverted(true);
-		this.topMotor.setInverted(true);
+		leftMotor = new WPI_VictorSPX(leftPort);
+		rightMotor = new WPI_VictorSPX(rightPort);
+		topMotor = new WPI_VictorSPX(topPort);
+
+		leftMotor.configFactoryDefault();
+		rightMotor.configFactoryDefault();
+		topMotor.configFactoryDefault();
+
+		rightMotor.setInverted(true);
+		topMotor.setInverted(true);
 	}
 
 	public void intake(double intakeSpeed) {

@@ -4,17 +4,25 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-package frc.robot.util.enums;
+package frc.robot.motion;
 
-public enum Hatch {
-	UP(0), SIDE(0.37);
+import java.util.HashMap;
+import java.util.Map;
 
-	private final double amount;
-	private Hatch(double amount) {
-		this.amount = amount;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+public class MotorStore {
+	private final Map<Integer, WPI_TalonSRX> motors;
+
+	public MotorStore() {
+		motors = new HashMap<>();
 	}
 
-	public double getAmount() {
-		return amount;
+	public void addMotor(int id, WPI_TalonSRX motor) {
+		motors.put(id, motor);
+	}
+
+	public WPI_TalonSRX getMotor(int id) {
+		return motors.get(id);
 	}
 }

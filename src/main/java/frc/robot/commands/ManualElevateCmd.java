@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.subsystems.ElevatorSys;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 public class ManualElevateCmd extends Command {
 	private final ElevatorSys m_elevator;
 	private final OI m_oi;
@@ -27,7 +29,14 @@ public class ManualElevateCmd extends Command {
 
 	@Override
 	protected void execute() {
-		m_elevator.manual(m_oi.getLeftY(1) * 0.60);
+		double amount = m_oi.getLeftY(1) * 0.5;
+		if (m_elevator.getControlMode() != ControlMode.PercentOutput) {
+			if (amount > 0) {
+				m_elevator.manual(amount);
+			}
+		} else {
+			m_elevator.manual(amount);
+		}
 	}
 
 	@Override
