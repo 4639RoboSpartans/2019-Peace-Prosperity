@@ -2,6 +2,7 @@ plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2019.4.1"
     id "com.diffplug.gradle.spotless" version "3.18.0"
+    id "idea"
 }
 
 def ROBOT_MAIN_CLASS = "frc.robot.Main"
