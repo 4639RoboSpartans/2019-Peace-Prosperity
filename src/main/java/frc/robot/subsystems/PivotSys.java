@@ -6,9 +6,9 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import frc.robot.motion.MotorStore;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class PivotSys extends InjectedSubsystem {
 	private static final int motorPort = 7;

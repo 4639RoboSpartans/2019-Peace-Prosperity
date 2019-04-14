@@ -6,8 +6,6 @@
 /*----------------------------------------------------------------------------*/
 package frc.robot;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -60,7 +58,6 @@ public class Robot extends TimedRobot {
 
 		m_oi.getButton(1, 1).whenPressed(new HatchIntakeCmd(m_hatchIntake, Hatch.SIDE));
 		m_oi.getButton(1, 4).whenPressed(new HatchIntakeCmd(m_hatchIntake, Hatch.UP));
-
 
 		m_oi.getButton(1, 3).whenPressed(new ElevateCmd(m_elevator, Height.LOAD));
 		m_oi.getButton(1, 2).whenPressed(new ElevateCmd(m_elevator, Height.LOW_HATCH));
