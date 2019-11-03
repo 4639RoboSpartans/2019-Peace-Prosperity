@@ -11,10 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import frc.robot.commands.BallIntakeCmd;
-import frc.robot.commands.ElevatorManualCmd;
-import frc.robot.commands.ElevatorMoveCmd;
-import frc.robot.commands.ManualDriveCmd;
+import frc.robot.commands.*;
 import frc.robot.subsystems.BallIntakeSys;
 import frc.robot.subsystems.DriveTrainSys;
 import frc.robot.subsystems.ElevatorSys;
@@ -36,8 +33,14 @@ public class Robot extends TimedRobot {
 		m_ballIntake.setDefaultCommand(new BallIntakeCmd(m_ballIntake, m_oi));
 		m_elevator.setDefaultCommand(new ElevatorManualCmd(m_elevator, m_oi));
 
-		m_oi.getButton(1, 3).whenPressed(new ElevatorMoveCmd(m_elevator, Height.LOAD));
-		m_oi.getButton(1, 2).whenPressed(new ElevatorMoveCmd(m_elevator, Height.LOW_HATCH));
+		m_oi.getButton(1, 3).whenPressed(new ElevatorDropCmd(m_elevator));
+		m_oi.getButton(1, 2).whenPressed(new ElevatorUndropCmd(m_elevator));
+		m_oi.getButton(1, 1).whenPressed(new ElevatorMoveCmd(m_elevator, Height.GROUND));
+
+		m_oi.getPovButton(1, 0).whenPressed(new ElevatorMoveCmd(m_elevator, Height.HIGH_HATCH));
+		m_oi.getPovButton(1, 2).whenPressed(new ElevatorMoveCmd(m_elevator, Height.MIDDLE_HATCH));
+		m_oi.getPovButton(1, 4).whenPressed(new ElevatorMoveCmd(m_elevator, Height.LOW_HATCH));
+		m_oi.getPovButton(1, 6).whenPressed(new ElevatorMoveCmd(m_elevator, Height.LOAD));
 
 		for (Height h : Height.values()) {
 			SmartDashboard.putData(h.name(), new ElevatorMoveCmd(m_elevator, h));
@@ -47,7 +50,6 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void robotPeriodic() {
-		m_elevator.a();
 	}
 
 	@Override
@@ -58,6 +60,7 @@ public class Robot extends TimedRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
+
 	@Override
 	public void autonomousInit() {
 	}

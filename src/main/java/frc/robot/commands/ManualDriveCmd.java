@@ -35,11 +35,8 @@ public class ManualDriveCmd extends Command {
 			rightX *= 0.4;
 		}
 
-		if (fieldOriented) {
-			m_drive.driveField(leftX, leftY, rightX);
-		} else {
-			m_drive.drive(leftX, leftY, rightX);
-		}
+		m_drive.drive(leftX, leftY, rightX);
+
 	}
 
 	@Override

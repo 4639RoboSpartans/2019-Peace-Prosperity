@@ -24,10 +24,6 @@ public class ElevatorManualCmd extends Command {
 	}
 
 	@Override
-	protected void initialize() {
-	}
-
-	@Override
 	protected void execute() {
 		double amount = m_oi.getLeftY(1) * 0.5;
 		if (m_elevator.getControlMode() != ControlMode.PercentOutput) {

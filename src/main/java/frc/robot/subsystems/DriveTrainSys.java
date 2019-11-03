@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import com.kauailabs.navx.frc.AHRS;
 
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -44,6 +45,11 @@ public class DriveTrainSys extends InjectedSubsystem {
 		rearLeft.setInverted(InvertType.InvertMotorOutput);
 		frontRight.setInverted(InvertType.InvertMotorOutput);
 		rearRight.setInverted(InvertType.InvertMotorOutput);
+
+		frontLeft.setNeutralMode(NeutralMode.Brake);
+		rearLeft.setNeutralMode(NeutralMode.Brake);
+		frontRight.setNeutralMode(NeutralMode.Brake);
+		rearRight.setNeutralMode(NeutralMode.Brake);
 
 		drive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
 	}

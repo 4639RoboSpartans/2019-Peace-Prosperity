@@ -9,10 +9,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.POVButton;
 
 public class OI {
 	private final Joystick[] sticks;
-	private final Button[][] buttons;
+	private final Button[][] rawButtons;
+	private final Button[][] povButtons;
 
 	// port values of the axes/buttons
 	private static final int leftJoystickX = 0, leftJoystickY = 1, leftTrigger = 2, rightTrigger = 3,
@@ -21,12 +23,16 @@ public class OI {
 	private static double deadzoneValue = 0.01;
 
 	public OI() {
-		buttons = new JoystickButton[6][8];
 		sticks = new Joystick[2];
+		rawButtons = new JoystickButton[6][8];
+		povButtons = new POVButton[6][8];
 		for (int i = 0; i < sticks.length; i++) {
 			sticks[i] = new Joystick(i);
-			for (int j = 0; j < buttons.length; j++) {
-				buttons[i][j] = new JoystickButton(sticks[i], j);
+			for (int j = 0; j < rawButtons[i].length; j++) {
+				rawButtons[i][j] = new JoystickButton(sticks[i], j);
+			}
+			for (int j = 0; j < povButtons[i].length; j++) {
+				povButtons[i][j] = new POVButton(sticks[i], j * 45);
 			}
 		}
 	}
@@ -86,6 +92,11 @@ public class OI {
 	}
 
 	public Button getButton(int joystick, int button) {
-		return buttons[joystick][button];
+		return rawButtons[joystick][button];
 	}
+
+	public Button getPovButton(int joystick, int button) {
+		return povButtons[joystick][button];
+	}
+
 }

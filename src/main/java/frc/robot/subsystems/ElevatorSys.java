@@ -8,18 +8,12 @@ package frc.robot.subsystems;
 
 import frc.robot.util.enums.Height;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class ElevatorSys extends InjectedSubsystem {
 	private static final int motorPort = 1;
-	private static final double vStatic = 0, P = 0.55, I = 0.001, D = 0.025;
+	private static final double kG = 0.531, kFr = 1.14, kV = 0.26, kP = 3.5, kD = 250;
 
 	private final WPI_TalonSRX motor;
 	private Height curHeight;
@@ -27,16 +21,12 @@ public class ElevatorSys extends InjectedSubsystem {
 	public ElevatorSys() {
 		this.motor = new WPI_TalonSRX(motorPort);
 		motor.configFactoryDefault();
+		motor.setInverted(true);
 
 		motor.setNeutralMode(NeutralMode.Brake);
 		motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		motor.configClearPositionOnLimitR(true, 0);
-		motor.setSensorPhase(true);
-
-		motor.configPeakOutputForward(1);
-		motor.configPeakOutputReverse(-1);
-		motor.configNominalOutputForward(0);
-		motor.configNominalOutputReverse(0);
+		motor.setSensorPhase(false);
 
 		motor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10);
 		motor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10);
@@ -44,17 +34,23 @@ public class ElevatorSys extends InjectedSubsystem {
 		motor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 		motor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
-		motor.selectProfileSlot(0, 0);
-		motor.config_kP(0, P);
-		motor.config_kI(0, I);
-		motor.config_kD(0, D);
+		motor.configClearPositionOnLimitR(true, 0);
 
-		motor.configMotionAcceleration(3000);
+		motor.selectProfileSlot(0, 0);
+		motor.config_kP(0, kP);
+		motor.config_kD(0, kD);
+
+		motor.configMotionAcceleration(4000);
 		motor.configMotionCruiseVelocity(4000);
 	}
 
+	private double getFeedforward() {
+		return kG + Math.signum(motor.getActiveTrajectoryVelocity()) * kFr
+				+ motor.getActiveTrajectoryVelocity() * 10.0 / 4096.0 * 3.926 * Math.PI * kV;
+	}
+
 	public void move(Height height) {
-		motor.set(ControlMode.MotionMagic, height.getHeight(), DemandType.ArbitraryFeedForward, vStatic);
+		motor.set(ControlMode.MotionMagic, height.getHeight(), DemandType.ArbitraryFeedForward, getFeedforward());
 		curHeight = height;
 	}
 
@@ -63,8 +59,9 @@ public class ElevatorSys extends InjectedSubsystem {
 			case HIGH_HATCH :
 			case MIDDLE_HATCH :
 			case LOW_HATCH :
-				motor.set(ControlMode.MotionMagic, curHeight.getHeight() - 939, DemandType.ArbitraryFeedForward,
-						vStatic);
+				motor.set(ControlMode.MotionMagic,
+						curHeight.getHeight() - (Height.LOW_HATCH.getHeight() - Height.LOAD.getHeight()),
+						DemandType.ArbitraryFeedForward, getFeedforward());
 				break;
 			default :
 				break;
@@ -72,15 +69,15 @@ public class ElevatorSys extends InjectedSubsystem {
 	}
 
 	public void undrop() {
-		move(curHeight);
+		if (curHeight == Height.LOAD) {
+			move(Height.LOW_HATCH);
+		} else {
+			move(curHeight);
+		}
 	}
 
 	public void manual(double num) {
 		motor.set(ControlMode.PercentOutput, num);
-	}
-
-	public void a() {
-		System.out.println(motor.getSelectedSensorPosition());
 	}
 
 	public ControlMode getControlMode() {

@@ -12,7 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
  * Add your docs here.
  */
 public class BallIntakeSys extends InjectedSubsystem {
-	private static final int leftPort = 12;
+	private static final int leftPort = 13;
 	private static final int rightPort = 8;
 	private static final int topPort = 11;
 	private static final double topMotorFactor = 0.8;
@@ -30,6 +30,7 @@ public class BallIntakeSys extends InjectedSubsystem {
 		rightMotor.configFactoryDefault();
 		topMotor.configFactoryDefault();
 
+		leftMotor.setInverted(true);
 		rightMotor.setInverted(true);
 		topMotor.setInverted(true);
 	}

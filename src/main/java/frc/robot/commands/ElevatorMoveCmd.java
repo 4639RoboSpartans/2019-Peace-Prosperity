@@ -25,4 +25,9 @@ public class ElevatorMoveCmd extends InstantCommand {
 	protected void initialize() {
 		m_elevator.move(height);
 	}
+
+	@Override
+	protected void interrupted() {
+		end();
+	}
 }
